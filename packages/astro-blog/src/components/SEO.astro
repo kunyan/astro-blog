@@ -1,0 +1,32 @@
+---
+import config from "astro-blog:config";
+import { buildSEO, type SEOInput } from "../lib/seo";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+}
+
+const { title, description, image, type } = Astro.props;
+const url = new URL(Astro.url.pathname, config.site.url).href;
+
+const input: SEOInput = {
+  title: title ?? config.site.title,
+  description: description ?? config.site.description,
+  siteTitle: config.site.title,
+  url,
+  image,
+  type,
+};
+
+const meta = buildSEO(input);
+---
+<title>{input.title}</title>
+{meta.map((m) => (
+  m.name
+    ? <meta name={m.name} content={m.content} />
+    : <meta property={m.property} content={m.content} />
+))}
+<link rel="canonical" href={url} />
