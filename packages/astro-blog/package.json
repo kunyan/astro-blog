@@ -1,0 +1,34 @@
+{
+  "name": "astro-blog",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "An Astro integration that turns any Astro project into a multi-theme-capable blog.",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./content": "./src/content.ts"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/sitemap": "^3.2.0",
+    "zod": "^3.23.0"
+  },
+  "peerDependencies": {
+    "astro": "^4.0.0 || ^5.0.0"
+  },
+  "devDependencies": {
+    "astro": "^5.0.0",
+    "vitest": "^2.1.0"
+  }
+}
