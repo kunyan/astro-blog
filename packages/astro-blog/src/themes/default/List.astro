@@ -1,0 +1,57 @@
+---
+import "./styles.css";
+import config from "astro-blog:config";
+import SEO from "../../components/SEO.astro";
+import type { CollectionEntry } from "astro:content";
+import type { PageInfo } from "../../lib/posts";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
+  page: PageInfo;
+  tag?: string;
+}
+
+const { posts, page, tag } = Astro.props;
+const heading = tag ? `Posts tagged "${tag}"` : "All posts";
+
+function pageUrl(n: number): string {
+  if (tag) return `/tags/${tag}`;
+  return n === 1 ? "/posts" : `/posts/page/${n}`;
+}
+---
+<html lang={config.site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEO title={`${heading} · ${config.site.title}`} />
+  </head>
+  <body>
+    <div class="blog-shell">
+      <header class="blog-header">
+        <h1><a href="/">{config.site.title}</a></h1>
+        <nav><a href="/posts">All posts</a> · <a href="/rss.xml">RSS</a></nav>
+      </header>
+      <main>
+        <h2>{heading}</h2>
+        {posts.length === 0 && <p>No posts yet.</p>}
+        {posts.map((p) => (
+          <article class="post-card">
+            <h3><a href={`/posts/${p.slug}`}>{p.data.title}</a></h3>
+            <p class="meta">{p.data.pubDate.toISOString().slice(0, 10)}</p>
+            <p>{p.data.description}</p>
+          </article>
+        ))}
+        {!tag && page.total > 1 && (
+          <nav class="pagination">
+            {page.hasPrev && <a href={pageUrl(page.current - 1)}>&larr; Newer</a>}
+            <span>Page {page.current} / {page.total}</span>
+            {page.hasNext && <a href={pageUrl(page.current + 1)}>Older &rarr;</a>}
+          </nav>
+        )}
+      </main>
+      <footer class="blog-footer">
+        &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+      </footer>
+    </div>
+  </body>
+</html>

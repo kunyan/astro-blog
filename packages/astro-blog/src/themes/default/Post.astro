@@ -1,0 +1,54 @@
+---
+import "./styles.css";
+import config from "astro-blog:config";
+import SEO from "../../components/SEO.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+<html lang={config.site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEO
+      title={`${post.data.title} · ${config.site.title}`}
+      description={post.data.description}
+      type="article"
+    />
+  </head>
+  <body>
+    <div class="blog-shell">
+      <header class="blog-header">
+        <h1><a href="/">{config.site.title}</a></h1>
+        <nav><a href="/posts">All posts</a></nav>
+      </header>
+      <main>
+        <article>
+          <h1>{post.data.title}</h1>
+          <p class="meta">
+            {post.data.pubDate.toISOString().slice(0, 10)}
+            {post.data.updatedDate && (
+              <> · updated {post.data.updatedDate.toISOString().slice(0, 10)}</>
+            )}
+          </p>
+          {post.data.tags.length > 0 && (
+            <p class="tag-cloud">
+              {post.data.tags.map((t) => <a href={`/tags/${t}`}>#{t}</a>)}
+            </p>
+          )}
+          <div class="post-body">
+            <Content />
+          </div>
+        </article>
+      </main>
+      <footer class="blog-footer">
+        &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+      </footer>
+    </div>
+  </body>
+</html>

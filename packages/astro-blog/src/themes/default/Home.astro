@@ -1,0 +1,41 @@
+---
+import "./styles.css";
+import config from "astro-blog:config";
+import SEO from "../../components/SEO.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
+}
+
+const { posts } = Astro.props;
+---
+<html lang={config.site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEO />
+  </head>
+  <body>
+    <div class="blog-shell">
+      <header class="blog-header">
+        <h1><a href="/">{config.site.title}</a></h1>
+        {config.site.description && <p>{config.site.description}</p>}
+        <nav><a href="/posts">All posts</a> · <a href="/rss.xml">RSS</a></nav>
+      </header>
+      <main>
+        {posts.length === 0 && <p>No posts yet.</p>}
+        {posts.map((p) => (
+          <article class="post-card">
+            <h2><a href={`/posts/${p.slug}`}>{p.data.title}</a></h2>
+            <p class="meta">{p.data.pubDate.toISOString().slice(0, 10)}</p>
+            <p>{p.data.description}</p>
+          </article>
+        ))}
+      </main>
+      <footer class="blog-footer">
+        &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+      </footer>
+    </div>
+  </body>
+</html>
