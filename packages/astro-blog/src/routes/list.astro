@@ -1,0 +1,10 @@
+---
+import { List } from "astro-blog:current-theme";
+import config from "astro-blog:config";
+import { getPublishedPosts, paginate } from "../lib/posts";
+
+const isDev = import.meta.env.DEV ?? false;
+const all = await getPublishedPosts({ isDev });
+const { items, page } = paginate(all, 1, config.posts.perPage);
+---
+<List posts={items} page={page} />

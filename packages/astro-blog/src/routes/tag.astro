@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths } from "astro";
+import { List } from "astro-blog:current-theme";
+import { getPublishedPosts, getAllTags, filterByTag } from "../lib/posts";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const isDev = import.meta.env.DEV ?? false;
+  const tags = await getAllTags({ isDev });
+  return tags.map((tag) => ({ params: { tag }, props: { tag } }));
+};
+
+const { tag } = Astro.props as { tag: string };
+const isDev = import.meta.env.DEV ?? false;
+const all = await getPublishedPosts({ isDev });
+const items = filterByTag(all, tag);
+const page = { current: 1, total: 1, hasPrev: false, hasNext: false };
+---
+<List posts={items} page={page} tag={tag} />
