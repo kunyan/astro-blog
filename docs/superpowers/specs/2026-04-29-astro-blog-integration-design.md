@@ -20,12 +20,12 @@ The blog content lives in standard Astro content collections; the integration pr
 - One bundled `default` theme
 - Build-time theme selection via the integration's `theme` option
 - Configurable site metadata: title, description, author, language, url, social links
-- Auto-injected routes: `/`, `/blog`, `/blog/[...page]` (paginated list), `/blog/[slug]`, `/tags/[tag]`, `/rss.xml`
+- Auto-injected routes: `/`, `/posts`, `/posts/page/[page]` (pagination), `/posts/[slug]`, `/tags/[tag]`, `/rss.xml`
 - Automatic `@astrojs/sitemap` integration
-- Exported `blogSchema` (zod) for the user's `content/config.ts`
+- Exported `postSchema` (zod) for the user's `content/config.ts`
 - Draft support: `draft: true` posts visible in `astro dev`, excluded from `astro build`
 - `<SEO />` component themes can place in `<head>`
-- Pagination on the list page (configurable `postsPerPage`, default 10)
+- Pagination on the list page (configurable `posts.perPage`, default 10)
 - Tag archive pages (auto-generated for tags that have at least one published post)
 - Monorepo with an `examples/blog-site/` Astro project for development and demonstration
 - Vitest unit tests for `lib/` and `options.ts`
@@ -53,7 +53,7 @@ The blog content lives in standard Astro content collections; the integration pr
 Astro's `injectRoute` requires a static file path; it cannot accept a "dynamically chosen component." To let static route templates render different themes based on user config, the integration uses Vite virtual module aliases (the same pattern used by Starlight):
 
 - `astro-blog:current-theme` → resolves to `packages/astro-blog/src/themes/<theme-name>/index.ts`
-- `astro-blog:config` → a generated virtual module exposing the validated user config (site, social, blog blocks)
+- `astro-blog:config` → a generated virtual module exposing the validated user config (site, social, posts blocks)
 
 Both aliases are registered in the integration's `astro:config:setup` hook via `updateConfig({ vite: { resolve: { alias: ... } } })` (the `astro-blog:config` virtual is generated as an inline string and resolved through a tiny Vite plugin that returns the source).
 
@@ -73,8 +73,9 @@ astro:config:setup hook fires
         ├─→ register Vite alias `astro-blog:current-theme` → resolved theme path
         ├─→ register Vite virtual module `astro-blog:config` with serialized user config
         ├─→ injectRoute({ pattern: '/',                  entrypoint: <pkg>/routes/home.astro })
-        ├─→ injectRoute({ pattern: '/blog/[...page]',    entrypoint: <pkg>/routes/list.astro })
-        ├─→ injectRoute({ pattern: '/blog/[slug]',       entrypoint: <pkg>/routes/post.astro })
+        ├─→ injectRoute({ pattern: '/posts',             entrypoint: <pkg>/routes/list.astro })
+        ├─→ injectRoute({ pattern: '/posts/page/[page]', entrypoint: <pkg>/routes/list.astro })
+        ├─→ injectRoute({ pattern: '/posts/[slug]',      entrypoint: <pkg>/routes/post.astro })
         ├─→ injectRoute({ pattern: '/tags/[tag]',        entrypoint: <pkg>/routes/tag.astro })
         ├─→ injectRoute({ pattern: '/rss.xml',           entrypoint: <pkg>/routes/rss.xml.ts })
         └─→ install @astrojs/sitemap (with `site` from user config)
@@ -82,10 +83,10 @@ astro:config:setup hook fires
 
 Route entrypoints resolve to absolute file paths inside the integration package via `new URL('./routes/<file>', import.meta.url)` (the `<pkg>` shorthand above). This avoids depending on the package's `exports` map for route resolution and keeps the routes private implementation, not public API.
 
-### 3.3 Build-time data flow for a single route (e.g., `/blog/<slug>`)
+### 3.3 Build-time data flow for a single route (e.g., `/posts/<slug>`)
 
 ```
-Astro build resolves /blog/[slug] → packages/astro-blog/src/routes/post.astro
+Astro build resolves /posts/[slug] → packages/astro-blog/src/routes/post.astro
                                             │
                                             ├─ import { Post } from 'astro-blog:current-theme'
                                             │       └─ Vite alias → src/themes/default/index.ts
@@ -125,7 +126,7 @@ astro-blog/                                  # repo root
 │       └── src/
 │           ├── index.ts                     # default export: integration factory
 │           ├── options.ts                   # zod schema, types, defaults merge
-│           ├── content.ts                   # exports blogSchema
+│           ├── content.ts                   # exports postSchema
 │           ├── virtual.ts                   # generates `astro-blog:config` source
 │           ├── lib/
 │           │   ├── posts.ts                 # getAllPosts, paginate, filterDraft, getByTag, getBySlug
@@ -154,8 +155,8 @@ astro-blog/                                  # repo root
         └── src/
             ├── env.d.ts
             └── content/
-                ├── config.ts                # demonstrates use of blogSchema
-                └── blog/
+                ├── config.ts                # demonstrates use of postSchema
+                └── posts/
                     ├── hello-world.md
                     ├── another-post.md
                     └── draft-post.md        # draft: true to demo draft handling
@@ -167,7 +168,7 @@ astro-blog/                                  # repo root
 |---|---|---|
 | `index.ts` | Integration factory; registers hooks; orchestrates other modules | options, virtual |
 | `options.ts` | zod schema, TS types, defaults merge | zod |
-| `content.ts` | Exports `blogSchema` for users to use in `content/config.ts` | astro:content (zod) |
+| `content.ts` | Exports `postSchema` for users to use in `content/config.ts` | astro:content (zod) |
 | `virtual.ts` | Serializes user config into `astro-blog:config` virtual-module source | — |
 | `lib/posts.ts` | Content queries: getAll, getBySlug, getByTag, paginate, filterDraft | astro:content |
 | `lib/seo.ts` | SEO meta-tag data assembly | — |
@@ -210,9 +211,9 @@ export default defineConfig({
         twitter: "https://twitter.com/kyan",
         email: "kun.yan@icloud.com",
       },
-      blog: {
-        postsPerPage: 10,
-        contentDir: "src/content/blog",
+      posts: {
+        perPage: 10,
+        contentDir: "src/content/posts",
       },
     }),
   ],
@@ -227,16 +228,16 @@ Required one-line setup. The integration does not auto-create this file — it i
 
 ```ts
 import { defineCollection } from "astro:content";
-import { blogSchema } from "astro-blog/content";
+import { postSchema } from "astro-blog/content";
 
 export const collections = {
-  blog: defineCollection({ type: "content", schema: blogSchema }),
+  posts: defineCollection({ type: "content", schema: postSchema }),
 };
 ```
 
-Users wanting custom frontmatter fields use `blogSchema.extend({ ... })`.
+Users wanting custom frontmatter fields use `postSchema.extend({ ... })`.
 
-### 5.4 Content files: `src/content/blog/<slug>.md`
+### 5.4 Content files: `src/content/posts/<slug>.md`
 
 ```md
 ---
@@ -252,7 +253,7 @@ coverAlt: "Cover image alt text"
 Markdown body...
 ```
 
-### 5.5 `blogSchema` field definitions
+### 5.5 `postSchema` field definitions
 
 ```ts
 {
@@ -272,9 +273,9 @@ Markdown body...
 | Path | Content |
 |---|---|
 | `/` | Home page — theme decides between latest-posts list, hero + recent, or other |
-| `/blog` | Post list (page 1) |
-| `/blog/2`, `/blog/3`, ... | List pagination |
-| `/blog/<slug>` | Single post |
+| `/posts` | Post list (page 1) |
+| `/posts/page/2`, `/posts/page/3`, ... | List pagination |
+| `/posts/<slug>` | Single post |
 | `/tags/<tag>` | Tag archive |
 | `/rss.xml` | RSS feed |
 | `/sitemap-index.xml` | Provided by `@astrojs/sitemap` |
@@ -296,9 +297,9 @@ Theme authors are free to break their components into smaller partials (`Header.
 
 #### Component prop contracts
 
-- `Home.astro`: `{ posts: CollectionEntry<'blog'>[] /* latest postsPerPage, draft excluded */, site, social }`
-- `List.astro`: `{ posts: CollectionEntry<'blog'>[], page: { current: number, total: number, hasPrev: boolean, hasNext: boolean }, site, social, tag?: string }` (`tag` set when rendered for `/tags/[tag]`)
-- `Post.astro`: `{ post: CollectionEntry<'blog'>, site, social }`. The route template renders `<Content />` from `post.render()` as a slot or as a child; exact convention finalized in implementation.
+- `Home.astro`: `{ posts: CollectionEntry<'posts'>[] /* latest posts.perPage entries, draft excluded */, site, social }`
+- `List.astro`: `{ posts: CollectionEntry<'posts'>[], page: { current: number, total: number, hasPrev: boolean, hasNext: boolean }, site, social, tag?: string }` (`tag` set when rendered for `/tags/[tag]`)
+- `Post.astro`: `{ post: CollectionEntry<'posts'>, site, social }`. The route template renders `<Content />` from `post.render()` as a slot or as a child; exact convention finalized in implementation.
 
 ## 6. Error handling
 
@@ -307,17 +308,17 @@ Theme authors are free to break their components into smaller partials (`Header.
 | User options fail zod validation | `astro:config:setup` throws with formatted zod errors; Astro startup fails |
 | `theme: "xxx"` directory does not exist | Throw with the list of available themes (v1: `["default"]`) and how to fix |
 | Theme directory exists but `index.ts` is missing required exports | Throw naming the missing export(s) |
-| User did not define a `blog` collection in `content/config.ts` | Astro's own collection resolution surfaces the error; README documents this required step |
-| A markdown file's frontmatter fails `blogSchema` validation | Astro content collections' standard error path; integration adds nothing |
+| User did not define a `posts` collection in `content/config.ts` | Astro's own collection resolution surfaces the error; README documents this required step |
+| A markdown file's frontmatter fails `postSchema` validation | Astro content collections' standard error path; integration adds nothing |
 
 ## 7. Edge cases
 
-- **Empty blog (no posts):** `/blog` renders `List.astro` with `{ posts: [], page: { total: 0, ... } }`. Theme decides empty-state UI. `/rss.xml` emits an empty channel.
+- **Empty blog (no posts):** `/posts` renders `List.astro` with `{ posts: [], page: { total: 0, ... } }`. Theme decides empty-state UI. `/rss.xml` emits an empty channel.
 - **Tag with only drafts:** at build time, the tag has zero published posts, so no `/tags/<tag>` route is generated.
 - **Future `pubDate`:** treated as published normally (no scheduled-publishing logic).
 - **Duplicate slugs:** Astro content collections error directly.
 - **Cover images:** typed as Astro `image()`, so optimization runs automatically.
-- **Pagination out of range** (e.g., `/blog/999`): `getStaticPaths` only emits real page numbers, so out-of-range yields a normal 404.
+- **Pagination out of range** (e.g., `/posts/page/999`): `getStaticPaths` only emits real page numbers, so out-of-range yields a normal 404.
 - **Drafts:** included in `astro dev` (`import.meta.env.DEV`), excluded from `astro build` everywhere — list, single page, tag pages, RSS, sitemap.
 
 ## 8. Testing strategy
@@ -325,7 +326,7 @@ Theme authors are free to break their components into smaller partials (`Header.
 | Layer | Tool | Subject |
 |---|---|---|
 | Unit | Vitest, in `packages/astro-blog/` | `options.ts` schema, `lib/posts.ts` pure helpers (paginate, filterDraft, getByTag), `lib/seo.ts` |
-| Integration | `examples/blog-site/` build | `astro build` succeeds; output `dist/` contains expected paths (`/blog/index.html`, `/blog/hello-world/index.html`, `/tags/<tag>/index.html`, `/rss.xml`); a small Node script asserts these in CI |
+| Integration | `examples/blog-site/` build | `astro build` succeeds; output `dist/` contains expected paths (`/posts/index.html`, `/posts/hello-world/index.html`, `/posts/page/2/index.html` if enough posts, `/tags/<tag>/index.html`, `/rss.xml`); a small Node script asserts these in CI |
 | Manual | Browser on `examples/blog-site` dev server | Visual confirmation of default theme |
 
 No browser end-to-end tests in v1. No coverage threshold.
