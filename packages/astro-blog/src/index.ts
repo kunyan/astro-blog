@@ -3,6 +3,7 @@ import sitemap from "@astrojs/sitemap";
 import { cpSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import { validateOptions, type AstroBlogOptions } from "./options.js";
 import { generateConfigSource } from "./virtual.js";
 
@@ -50,17 +51,21 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
 
         if (config.theme.includes("tailwind")) {
           try {
-            const tailwindPlugin = await import("@tailwindcss/vite");
+            // Use createRequire to load from the project root, not the integration
+            const require = createRequire(join(projectRoot, "package.json"));
+            const tailwindPluginModule = require("@tailwindcss/vite");
+            const tailwindPlugin = tailwindPluginModule.default || tailwindPluginModule;
             updateConfig({
               vite: {
-                plugins: [tailwindPlugin.default()],
+                plugins: [tailwindPlugin()],
               },
             });
             logger.info("Tailwind CSS v4 plugin configured automatically.");
-          } catch {
+          } catch (e) {
             throw new Error(
               `[astro-blog] Theme "${config.theme}" requires Tailwind CSS v4.\n` +
-              `Run: pnpm add tailwindcss @tailwindcss/vite @tailwindcss/typography`
+              `Run: pnpm add tailwindcss @tailwindcss/vite @tailwindcss/typography\n` +
+              `Error: ${e instanceof Error ? e.message : String(e)}`
             );
           }
         }
