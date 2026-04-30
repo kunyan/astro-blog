@@ -1,0 +1,40 @@
+---
+import "./styles.css";
+import config from "astro-blog:config";
+import SEO from "astro-blog/components/SEO";
+import Nav from "./Nav.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
+}
+
+const { posts } = Astro.props;
+---
+<html lang={config.site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEO />
+  </head>
+  <body class="bg-[var(--paper)] text-[var(--text)] font-sans text-base leading-relaxed transition-colors">
+    <Nav />
+    <main class="max-w-[720px] mx-auto px-6 pt-10 pb-16 min-h-[calc(100vh-56px-60px)]">
+      <h1 class="text-3xl font-semibold text-[var(--ink)] mb-1">{config.site.title}</h1>
+      {config.site.description && <p class="text-base text-[var(--muted)] mb-10">{config.site.description}</p>}
+      {posts.length === 0 && <p class="text-center py-12 text-[var(--muted)]">No posts yet.</p>}
+      {posts.map((p) => (
+        <article class="py-5 border-b border-[var(--border-light)] first:pt-0 last:border-b-0">
+          <h2 class="text-xl font-semibold mb-0.5">
+            <a href={`/posts/${p.slug}`} class="text-[var(--ink)] no-underline hover:text-[var(--accent-hover)] transition-colors">{p.data.title}</a>
+          </h2>
+          <p class="text-xs text-[var(--muted)]">{p.data.pubDate.toISOString().slice(0, 10)}</p>
+          {p.data.description && <p class="mt-1 text-sm text-[var(--muted)] leading-normal">{p.data.description}</p>}
+        </article>
+      ))}
+    </main>
+    <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
+      &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+    </footer>
+  </body>
+</html>
