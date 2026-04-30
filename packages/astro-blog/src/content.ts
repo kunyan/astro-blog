@@ -13,3 +13,10 @@ export const postSchema = ({ image }: SchemaContext) =>
   });
 
 export type PostFrontmatter = z.infer<ReturnType<typeof postSchema>>;
+
+export const pageSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+});
+
+export type PageFrontmatter = z.infer<typeof pageSchema>;

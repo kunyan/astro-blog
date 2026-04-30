@@ -30,5 +30,23 @@ a { color: var(--blog-link); }
 .post-card .meta { color: var(--blog-muted); font-size: 0.875rem; }
 .post-card p { margin: 0.5rem 0 0; }
 .pagination { display: flex; gap: 1rem; margin: 2rem 0; }
+.nav { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.nav a { text-decoration: none; }
+.nav-group { position: relative; }
+.nav-group-label { cursor: default; color: var(--blog-link); }
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--blog-bg);
+  border: 1px solid var(--blog-border);
+  padding: 0.5rem 0;
+  min-width: 140px;
+  z-index: 10;
+}
+.nav-group:hover .nav-dropdown { display: flex; flex-direction: column; }
+.nav-dropdown a { padding: 0.25rem 1rem; white-space: nowrap; }
+.nav-dropdown a:hover { background: var(--blog-border); }
 .tag-cloud a { margin-right: 0.5rem; }
 .post-body img { max-width: 100%; height: auto; }

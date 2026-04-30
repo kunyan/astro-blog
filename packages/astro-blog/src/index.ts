@@ -88,6 +88,10 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
           pattern: "/rss.xml",
           entrypoint: routeEntrypoint("rss.xml.ts"),
         });
+        injectRoute({
+          pattern: "/[slug]",
+          entrypoint: routeEntrypoint("page.astro"),
+        });
       },
     },
   };

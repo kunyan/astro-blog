@@ -10,7 +10,8 @@
     ".": "./src/index.ts",
     "./content": "./src/content.ts",
     "./components/SEO": "./src/components/SEO.astro",
-    "./lib/posts": "./src/lib/posts.ts"
+    "./lib/posts": "./src/lib/posts.ts",
+    "./lib/pages": "./src/lib/pages.ts"
   },
   "files": [
     "src",

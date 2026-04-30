@@ -1,0 +1,33 @@
+---
+import config from "astro-blog:config";
+
+type NavLeaf = { name: string; path: string };
+type NavGroup = { name: string; children: NavItem[] };
+type NavItem = NavLeaf | NavGroup;
+
+function isLeaf(item: NavItem): item is NavLeaf {
+  return "path" in item;
+}
+
+const items: NavItem[] = config.nav ?? [];
+---
+<nav class="nav">
+  {items.map((item) =>
+    isLeaf(item) ? (
+      <a href={item.path}>{item.name}</a>
+    ) : (
+      <div class="nav-group">
+        <span class="nav-group-label">{item.name}</span>
+        <div class="nav-dropdown">
+          {item.children.map((child) =>
+            isLeaf(child) ? (
+              <a href={child.path}>{child.name}</a>
+            ) : null
+          )}
+        </div>
+      </div>
+    )
+  )}
+  <a href="/posts">Posts</a>
+  <a href="/rss.xml">RSS</a>
+</nav>

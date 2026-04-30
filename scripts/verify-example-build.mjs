@@ -15,6 +15,7 @@ const required = [
   "tags/meta/index.html",
   "rss.xml",
   "sitemap-index.xml",
+  "about/index.html",
 ];
 
 const forbidden = [

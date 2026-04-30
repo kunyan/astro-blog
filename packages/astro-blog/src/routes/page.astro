@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import { Page } from "astro-blog:current-theme";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const pages = await getCollection("pages");
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+};
+
+const { page } = Astro.props;
+---
+<Page page={page} />

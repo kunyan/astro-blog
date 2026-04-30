@@ -23,11 +23,25 @@ const postsSchema = z
   })
   .default({});
 
+export type NavLeaf = { name: string; path: string };
+export type NavGroup = { name: string; children: NavItem[] };
+export type NavItem = NavLeaf | NavGroup;
+
+const navItemSchema: z.ZodType<NavItem> = z.lazy(() =>
+  z.union([
+    z.object({ name: z.string().min(1), path: z.string().startsWith("/") }),
+    z.object({ name: z.string().min(1), children: z.array(navItemSchema).min(1) }),
+  ])
+);
+
+const navSchema = z.array(navItemSchema).default([]);
+
 export const optionsSchema = z.object({
   theme: z.string().default("default"),
   site: siteSchema,
   social: socialSchema,
   posts: postsSchema,
+  nav: navSchema,
 });
 
 export type AstroBlogOptions = z.input<typeof optionsSchema>;

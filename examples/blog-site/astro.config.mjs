@@ -9,17 +9,20 @@ export default defineConfig({
       site: {
         title: "Example Blog",
         description: "A demo of astro-blog.",
-        author: "Kyan",
+        author: "Kun Yan",
         language: "en",
         url: "https://example.com",
       },
       social: {
-        github: "https://github.com/kyan",
+        github: "https://github.com/kunyan",
       },
       posts: {
         perPage: 2,
         contentDir: "src/content/posts",
       },
+      nav: [
+        { name: "About", path: "/about" },
+      ],
     }),
   ],
 });

@@ -13,6 +13,7 @@ describe("validateOptions", () => {
     expect(result.site.description).toBe("");
     expect(result.site.author).toBe("");
     expect(result.social).toEqual({});
+    expect(result.nav).toEqual([]);
   });
 
   it("throws when site.title is missing", () => {
@@ -38,6 +39,62 @@ describe("validateOptions", () => {
     expect(result.posts.perPage).toBe(5);
     expect(result.posts.contentDir).toBe("src/content/posts");
     expect(result.site.language).toBe("zh-CN");
+  });
+
+  it("accepts a flat nav", () => {
+    const result = validateOptions({
+      site: { title: "T", url: "https://example.com" },
+      nav: [
+        { name: "About", path: "/about" },
+        { name: "Contact", path: "/contact" },
+      ],
+    });
+    expect(result.nav).toEqual([
+      { name: "About", path: "/about" },
+      { name: "Contact", path: "/contact" },
+    ]);
+  });
+
+  it("accepts nested nav with children", () => {
+    const result = validateOptions({
+      site: { title: "T", url: "https://example.com" },
+      nav: [
+        { name: "About", path: "/about" },
+        {
+          name: "More",
+          children: [
+            { name: "Tags", path: "/tags" },
+            { name: "Archive", path: "/archive" },
+          ],
+        },
+      ],
+    });
+    expect(result.nav).toHaveLength(2);
+    expect(result.nav[1]).toEqual({
+      name: "More",
+      children: [
+        { name: "Tags", path: "/tags" },
+        { name: "Archive", path: "/archive" },
+      ],
+    });
+  });
+
+  it("rejects nav item with invalid path", () => {
+    expect(() =>
+      validateOptions({
+        site: { title: "T", url: "https://example.com" },
+        nav: [{ name: "Bad", path: "no-leading-slash" }],
+      })
+    ).toThrow();
+  });
+
+  it("rejects nav group with empty children", () => {
+    expect(() =>
+      validateOptions({
+        site: { title: "T", url: "https://example.com" },
+        nav: [{ name: "Empty", children: [] }],
+      })
+    ).toThrow();
   });
 
   it("validates social URLs and email when provided", () => {

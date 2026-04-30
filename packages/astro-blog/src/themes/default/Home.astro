@@ -2,6 +2,7 @@
 import "./styles.css";
 import config from "astro-blog:config";
 import SEO from "astro-blog/components/SEO";
+import Nav from "./Nav.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -21,7 +22,7 @@ const { posts } = Astro.props;
       <header class="blog-header">
         <h1><a href="/">{config.site.title}</a></h1>
         {config.site.description && <p>{config.site.description}</p>}
-        <nav><a href="/posts">All posts</a> · <a href="/rss.xml">RSS</a></nav>
+        <Nav />
       </header>
       <main>
         {posts.length === 0 && <p>No posts yet.</p>}

@@ -6,20 +6,19 @@ import Nav from "./Nav.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  post: CollectionEntry<"posts">;
+  page: CollectionEntry<"pages">;
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { page } = Astro.props;
+const { Content } = await page.render();
 ---
 <html lang={config.site.language}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <SEO
-      title={`${post.data.title} · ${config.site.title}`}
-      description={post.data.description}
-      type="article"
+      title={`${page.data.title} · ${config.site.title}`}
+      description={page.data.description}
     />
   </head>
   <body>
@@ -30,18 +29,7 @@ const { Content } = await post.render();
       </header>
       <main>
         <article>
-          <h1>{post.data.title}</h1>
-          <p class="meta">
-            {post.data.pubDate.toISOString().slice(0, 10)}
-            {post.data.updatedDate && (
-              <> · updated {post.data.updatedDate.toISOString().slice(0, 10)}</>
-            )}
-          </p>
-          {post.data.tags.length > 0 && (
-            <p class="tag-cloud">
-              {post.data.tags.map((t) => <a href={`/tags/${t}`}>#{t}</a>)}
-            </p>
-          )}
+          <h1>{page.data.title}</h1>
           <div class="post-body">
             <Content />
           </div>

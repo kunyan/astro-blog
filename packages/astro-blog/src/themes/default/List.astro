@@ -2,6 +2,7 @@
 import "./styles.css";
 import config from "astro-blog:config";
 import SEO from "astro-blog/components/SEO";
+import Nav from "./Nav.astro";
 import type { CollectionEntry } from "astro:content";
 import type { PageInfo } from "astro-blog/lib/posts";
 
@@ -29,7 +30,7 @@ function pageUrl(n: number): string {
     <div class="blog-shell">
       <header class="blog-header">
         <h1><a href="/">{config.site.title}</a></h1>
-        <nav><a href="/posts">All posts</a> · <a href="/rss.xml">RSS</a></nav>
+        <Nav />
       </header>
       <main>
         <h2>{heading}</h2>
