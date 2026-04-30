@@ -28,7 +28,15 @@
     "zod": "^3.23.0"
   },
   "peerDependencies": {
-    "astro": "^4.0.0 || ^5.0.0"
+    "astro": "^4.0.0 || ^5.0.0",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "@tailwindcss/typography": "^0.5.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": { "optional": true },
+    "@tailwindcss/vite": { "optional": true },
+    "@tailwindcss/typography": { "optional": true }
   },
   "devDependencies": {
     "astro": "^5.0.0",
