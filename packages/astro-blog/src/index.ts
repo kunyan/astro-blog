@@ -26,7 +26,7 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
   const blogIntegration: AstroIntegration = {
     name: "astro-blog",
     hooks: {
-      "astro:config:setup": ({ config: astroConfig, updateConfig, injectRoute, logger }) => {
+      "astro:config:setup": async ({ config: astroConfig, updateConfig, injectRoute, logger }) => {
         const projectRoot = fileURLToPath(astroConfig.root);
         const userThemesDir = join(projectRoot, "src/themes");
         const userThemeDir = join(userThemesDir, config.theme);
@@ -44,6 +44,23 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
             throw new Error(
               `[astro-blog] Theme "${config.theme}" not found.\n` +
                 `Create it at src/themes/${config.theme}/ or use one of: ${available.join(", ")}.`
+            );
+          }
+        }
+
+        if (config.theme.includes("tailwind")) {
+          try {
+            const tailwindPlugin = await import("@tailwindcss/vite");
+            updateConfig({
+              vite: {
+                plugins: [tailwindPlugin.default()],
+              },
+            });
+            logger.info("Tailwind CSS v4 plugin configured automatically.");
+          } catch {
+            throw new Error(
+              `[astro-blog] Theme "${config.theme}" requires Tailwind CSS v4.\n` +
+              `Run: pnpm add tailwindcss @tailwindcss/vite @tailwindcss/typography`
             );
           }
         }
