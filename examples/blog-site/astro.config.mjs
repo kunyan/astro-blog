@@ -5,7 +5,7 @@ export default defineConfig({
   site: "https://example.com",
   integrations: [
     blog({
-      theme: "default",
+      theme: "default-tailwind",
       site: {
         title: "Example Blog",
         description: "A demo of astro-blog.",
