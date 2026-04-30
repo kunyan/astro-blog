@@ -12,6 +12,7 @@ function isLeaf(item: NavItem): item is NavLeaf {
 const items: NavItem[] = config.nav ?? [];
 ---
 <nav class="nav">
+  <a href="/">Home</a>
   {items.map((item) =>
     isLeaf(item) ? (
       <a href={item.path}>{item.name}</a>
