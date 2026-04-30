@@ -1,0 +1,40 @@
+---
+import "./styles.css";
+import config from "astro-blog:config";
+import SEO from "astro-blog/components/SEO";
+import Nav from "./Nav.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  page: CollectionEntry<"pages">;
+}
+
+const { page } = Astro.props;
+const { Content } = await page.render();
+---
+<html lang={config.site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEO
+      title={`${page.data.title} · ${config.site.title}`}
+      description={page.data.description}
+    />
+  </head>
+  <body class="bg-[var(--paper)] text-[var(--text)] font-sans text-base leading-relaxed transition-colors">
+    <Nav />
+    <main class="max-w-[720px] mx-auto px-6 pt-10 pb-16 min-h-[calc(100vh-56px-60px)]">
+      <article>
+        <header class="mb-8 pb-5 border-b border-[var(--border-light)]">
+          <h1 class="text-3xl font-semibold text-[var(--ink)]">{page.data.title}</h1>
+        </header>
+        <div class="prose dark:prose-invert max-w-none">
+          <Content />
+        </div>
+      </article>
+    </main>
+    <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
+      &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+---
+import "./styles.css";
+import config from "astro-blog:config";
+import SEO from "astro-blog/components/SEO";
+import Nav from "./Nav.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+<html lang={config.site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEO
+      title={`${post.data.title} · ${config.site.title}`}
+      description={post.data.description}
+      type="article"
+    />
+  </head>
+  <body class="bg-[var(--paper)] text-[var(--text)] font-sans text-base leading-relaxed transition-colors">
+    <Nav />
+    <main class="max-w-[720px] mx-auto px-6 pt-10 pb-16 min-h-[calc(100vh-56px-60px)]">
+      <article>
+        <header class="mb-8 pb-5 border-b border-[var(--border-light)]">
+          <p class="text-xs text-[var(--muted)] mb-2">
+            {post.data.pubDate.toISOString().slice(0, 10)}
+            {post.data.updatedDate && (
+              <> · updated {post.data.updatedDate.toISOString().slice(0, 10)}</>
+            )}
+          </p>
+          <h1 class="text-3xl font-semibold text-[var(--ink)]">{post.data.title}</h1>
+          {post.data.tags.length > 0 && (
+            <div class="mt-2.5 flex flex-wrap gap-1.5">
+              {post.data.tags.map((t) => (
+                <a href={`/tags/${t}`} class="text-xs text-[var(--muted)] border border-[var(--border)] px-2 py-0.5 rounded no-underline hover:text-[var(--ink)] hover:border-[var(--ink)] transition-colors">#{t}</a>
+              ))}
+            </div>
+          )}
+        </header>
+        <div class="prose dark:prose-invert max-w-none">
+          <Content />
+        </div>
+      </article>
+    </main>
+    <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
+      &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+    </footer>
+  </body>
+</html>
