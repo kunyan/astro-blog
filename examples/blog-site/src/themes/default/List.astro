@@ -13,14 +13,15 @@ interface Props {
 }
 
 const { posts, page, tag } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const isZh = (config.site.language ?? "").startsWith("zh");
 const heading = tag
   ? (isZh ? `标签「${tag}」的文章` : `Posts tagged "${tag}"`)
   : (isZh ? "所有文章" : "All posts");
 
 function pageUrl(n: number): string {
-  if (tag) return `/tags/${tag}`;
-  return n === 1 ? "/posts" : `/posts/page/${n}`;
+  if (tag) return `${base}/tags/${tag}`;
+  return n === 1 ? `${base}/posts` : `${base}/posts/page/${n}`;
 }
 ---
 <html lang={config.site.language}>
@@ -37,22 +38,32 @@ function pageUrl(n: number): string {
       {posts.map((p) => (
         <article class="py-5 border-b border-[var(--border-light)] first:pt-0 last:border-b-0">
           <h3 class="text-xl font-semibold mb-0.5">
-            <a href={`/posts/${p.slug}`} class="text-[var(--ink)] no-underline hover:text-[var(--accent-hover)] transition-colors">{p.data.title}</a>
+            <a href={`${base}/posts/${p.slug}`} class="text-[var(--ink)] no-underline hover:text-[var(--accent-hover)] transition-colors">{p.data.title}</a>
           </h3>
           <p class="text-xs text-[var(--muted)]">{p.data.pubDate.toISOString().slice(0, 10)}</p>
           {p.data.description && <p class="mt-1 text-sm text-[var(--muted)] leading-normal">{p.data.description}</p>}
         </article>
       ))}
       {!tag && page.total > 1 && (
-        <nav class="flex items-center justify-center gap-4 mt-10 pt-5 border-t border-[var(--border-light)]">
-          {page.hasPrev && <a href={pageUrl(page.current - 1)} class="text-sm no-underline px-3.5 py-1.5 border border-[var(--border)] rounded text-[var(--accent)] hover:bg-[var(--border-light)] transition-colors">&larr; {isZh ? "较新" : "Newer"}</a>}
-          <span class="text-sm text-[var(--muted)]">{page.current} / {page.total}</span>
-          {page.hasNext && <a href={pageUrl(page.current + 1)} class="text-sm no-underline px-3.5 py-1.5 border border-[var(--border)] rounded text-[var(--accent)] hover:bg-[var(--border-light)] transition-colors">{isZh ? "较旧" : "Older"} &rarr;</a>}
+        <nav class="flex items-center justify-center gap-1.5 mt-10 pt-5 border-t border-[var(--border-light)]">
+          {page.hasPrev && (
+            <a href={pageUrl(page.current - 1)} class="text-sm no-underline w-8 h-8 flex items-center justify-center rounded hover:bg-[var(--border-light)] text-[var(--muted)] transition-colors">&larr;</a>
+          )}
+          {Array.from({ length: page.total }, (_, i) => i + 1).map((n) => (
+            n === page.current ? (
+              <span class="text-sm w-8 h-8 flex items-center justify-center rounded bg-[var(--ink)] text-[var(--paper)] font-medium">{n}</span>
+            ) : (
+              <a href={pageUrl(n)} class="text-sm no-underline w-8 h-8 flex items-center justify-center rounded text-[var(--muted)] hover:bg-[var(--border-light)] transition-colors">{n}</a>
+            )
+          ))}
+          {page.hasNext && (
+            <a href={pageUrl(page.current + 1)} class="text-sm no-underline w-8 h-8 flex items-center justify-center rounded hover:bg-[var(--border-light)] text-[var(--muted)] transition-colors">&rarr;</a>
+          )}
         </nav>
       )}
     </main>
     <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
-      &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+      &copy; {new Date().getFullYear()} {config.site.author || config.site.title} · Powered by <a href="https://github.com/kunyan/astro-blog" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors underline">astro-blog</a>
     </footer>
   </body>
 </html>

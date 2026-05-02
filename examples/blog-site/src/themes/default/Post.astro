@@ -12,6 +12,7 @@ interface Props {
 const { post } = Astro.props;
 const { Content, headings } = await post.render();
 const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const isZh = (config.site.language ?? "").startsWith("zh");
 const tocTitle = isZh ? "目录" : "Table of Contents";
 ---
@@ -41,7 +42,7 @@ const tocTitle = isZh ? "目录" : "Table of Contents";
             {post.data.tags.length > 0 && (
               <div class="mt-2.5 flex flex-wrap gap-1.5">
                 {post.data.tags.map((t) => (
-                  <a href={`/tags/${t}`} class="text-xs text-[var(--muted)] border border-[var(--border)] px-2 py-0.5 rounded no-underline hover:text-[var(--ink)] hover:border-[var(--ink)] transition-colors">#{t}</a>
+                  <a href={`${base}/tags/${t}`} class="text-xs text-[var(--muted)] border border-[var(--border)] px-2 py-0.5 rounded no-underline hover:text-[var(--ink)] hover:border-[var(--ink)] transition-colors">#{t}</a>
                 ))}
               </div>
             )}
@@ -78,7 +79,7 @@ const tocTitle = isZh ? "目录" : "Table of Contents";
       )}
     </div>
     <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
-      &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+      &copy; {new Date().getFullYear()} {config.site.author || config.site.title} · Powered by <a href="https://github.com/kunyan/astro-blog" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors underline">astro-blog</a>
     </footer>
   </body>
 </html>

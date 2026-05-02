@@ -11,6 +11,7 @@ function isLeaf(item: NavItem): item is NavLeaf {
 
 const items: NavItem[] = config.nav ?? [];
 const social = config.social ?? {};
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const isZh = (config.site.language ?? "").startsWith("zh");
 const labels = {
   home: isZh ? "首页" : "Home",
@@ -30,15 +31,15 @@ const labels = {
 
 <header class="sticky top-0 z-50 bg-[var(--paper)] border-b border-[var(--border)] transition-colors">
   <div class="relative max-w-7xl mx-auto h-14 flex items-center justify-between px-6">
-    <a href="/" class="text-lg font-semibold text-[var(--ink)] no-underline whitespace-nowrap shrink-0 hover:opacity-70 transition-opacity">
+    <a href={`${base}/`} class="text-lg font-semibold text-[var(--ink)] no-underline whitespace-nowrap shrink-0 hover:opacity-70 transition-opacity">
       {config.site.title}
     </a>
 
     <nav class="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2" id="site-nav">
-      <a href="/" class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{labels.home}</a>
+      <a href={`${base}/`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{labels.home}</a>
       {items.map((item) =>
         isLeaf(item) ? (
-          <a href={item.path} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{item.name}</a>
+          <a href={`${base}${item.path}`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{item.name}</a>
         ) : (
           <div class="relative group">
             <span class="text-sm text-[var(--text)] px-2.5 py-1.5 rounded cursor-default inline-flex items-center gap-1 hover:bg-[var(--border-light)] transition-colors">
@@ -48,15 +49,15 @@ const labels = {
             <div class="hidden group-hover:flex flex-col absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-[var(--paper)] border border-[var(--border)] rounded-lg p-1 min-w-[140px] shadow-lg">
               {item.children.map((child) =>
                 isLeaf(child) ? (
-                  <a href={child.path} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{child.name}</a>
+                  <a href={`${base}${child.path}`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{child.name}</a>
                 ) : null
               )}
             </div>
           </div>
         )
       )}
-      <a href="/posts" class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{labels.posts}</a>
-      <a href="/rss.xml" class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">RSS</a>
+      <a href={`${base}/posts`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{labels.posts}</a>
+      <a href={`${base}/rss.xml`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">RSS</a>
     </nav>
 
     <div class="flex items-center gap-2 shrink-0">
@@ -88,23 +89,23 @@ const labels = {
   </div>
 
   <nav class="hidden flex-col px-4 pb-4 pt-2 border-t border-[var(--border-light)] md:!hidden" id="mobile-nav">
-    <a href="/" class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{labels.home}</a>
+    <a href={`${base}/`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{labels.home}</a>
     {items.map((item) =>
       isLeaf(item) ? (
-        <a href={item.path} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{item.name}</a>
+        <a href={`${base}${item.path}`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{item.name}</a>
       ) : (
         <div>
           <span class="text-sm text-[var(--text)] px-2.5 py-2 block">{item.name}</span>
           {item.children.map((child) =>
             isLeaf(child) ? (
-              <a href={child.path} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 pl-6 rounded hover:bg-[var(--border-light)] transition-colors block">{child.name}</a>
+              <a href={`${base}${child.path}`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 pl-6 rounded hover:bg-[var(--border-light)] transition-colors block">{child.name}</a>
             ) : null
           )}
         </div>
       )
     )}
-    <a href="/posts" class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{labels.posts}</a>
-    <a href="/rss.xml" class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">RSS</a>
+    <a href={`${base}/posts`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{labels.posts}</a>
+    <a href={`${base}/rss.xml`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">RSS</a>
   </nav>
 </header>
 

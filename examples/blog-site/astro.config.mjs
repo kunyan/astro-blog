@@ -2,7 +2,8 @@ import { defineConfig } from "astro/config";
 import blog from "astro-blog";
 
 export default defineConfig({
-  site: "https://example.com",
+  site: "https://kunyan.github.io",
+  base: "/astro-blog",
   integrations: [
     blog({
       theme: "default",
@@ -11,7 +12,7 @@ export default defineConfig({
         description: "A demo of astro-blog.",
         author: "Kun Yan",
         language: "zh",
-        url: "https://example.com",
+        url: "https://kunyan.github.io/astro-blog",
       },
       social: {
         github: "https://github.com/kunyan",
@@ -21,7 +22,7 @@ export default defineConfig({
         contentDir: "src/content/posts",
       },
       nav: [
-        { name: "About", path: "/about" },
+        { name: "关于", path: "/about" },
       ],
     }),
   ],

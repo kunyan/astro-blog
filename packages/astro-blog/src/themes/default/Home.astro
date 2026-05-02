@@ -8,9 +8,12 @@ import type { CollectionEntry } from "astro:content";
 
 interface Props {
   posts: CollectionEntry<"posts">[];
+  hasMore?: boolean;
 }
 
-const { posts } = Astro.props;
+const { posts, hasMore = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const isZh = (config.site.language ?? "").startsWith("zh");
 ---
 <html lang={config.site.language}>
   <head>
@@ -29,7 +32,7 @@ const { posts } = Astro.props;
       {posts.length === 0 && <p class="text-center py-12 text-[var(--muted)]">No posts yet.</p>}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((p) => (
-          <a href={`/posts/${p.slug}`} class="group block no-underline rounded-lg border border-[var(--border-light)] overflow-hidden hover:border-[var(--border)] hover:shadow-lg transition-all duration-300">
+          <a href={`${base}/posts/${p.slug}`} class="group block no-underline rounded-lg border border-[var(--border-light)] overflow-hidden hover:border-[var(--border)] hover:shadow-lg transition-all duration-300">
             <div class="overflow-hidden aspect-[2/1] bg-[var(--border-light)]">
               {p.data.cover ? (
                 <Image
@@ -53,9 +56,16 @@ const { posts } = Astro.props;
           </a>
         ))}
       </div>
+      {hasMore && (
+        <div class="mt-10 text-center">
+          <a href={`${base}/posts`} class="inline-block text-sm no-underline px-5 py-2 border border-[var(--border)] rounded text-[var(--ink)] hover:bg-[var(--border-light)] transition-colors">
+            {isZh ? "查看全部文章 →" : "View all posts →"}
+          </a>
+        </div>
+      )}
     </main>
     <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
-      &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+      &copy; {new Date().getFullYear()} {config.site.author || config.site.title} · Powered by <a href="https://github.com/kunyan/astro-blog" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors underline">astro-blog</a>
     </footer>
   </body>
 </html>
