@@ -49,25 +49,20 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
           }
         }
 
-        if (config.theme.includes("tailwind")) {
-          try {
-            // Use createRequire to load from the project root, not the integration
-            const require = createRequire(join(projectRoot, "package.json"));
-            const tailwindPluginModule = require("@tailwindcss/vite");
-            const tailwindPlugin = tailwindPluginModule.default || tailwindPluginModule;
-            updateConfig({
-              vite: {
-                plugins: [tailwindPlugin()],
-              },
-            });
-            logger.info("Tailwind CSS v4 plugin configured automatically.");
-          } catch (e) {
-            throw new Error(
-              `[astro-blog] Theme "${config.theme}" requires Tailwind CSS v4.\n` +
-              `Run: pnpm add tailwindcss @tailwindcss/vite @tailwindcss/typography\n` +
-              `Error: ${e instanceof Error ? e.message : String(e)}`
-            );
-          }
+        try {
+          const require = createRequire(join(projectRoot, "package.json"));
+          const tailwindPluginModule = require("@tailwindcss/vite");
+          const tailwindPlugin = tailwindPluginModule.default || tailwindPluginModule;
+          updateConfig({
+            vite: {
+              plugins: [tailwindPlugin()],
+            },
+          });
+        } catch {
+          throw new Error(
+            `[astro-blog] Tailwind CSS v4 is required.\n` +
+            `Run: pnpm add tailwindcss @tailwindcss/vite @tailwindcss/typography`
+          );
         }
 
         const configSource = generateConfigSource(config);

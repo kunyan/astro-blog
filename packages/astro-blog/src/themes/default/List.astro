@@ -13,7 +13,10 @@ interface Props {
 }
 
 const { posts, page, tag } = Astro.props;
-const heading = tag ? `Posts tagged "${tag}"` : "All posts";
+const isZh = (config.site.language ?? "").startsWith("zh");
+const heading = tag
+  ? (isZh ? `标签「${tag}」的文章` : `Posts tagged "${tag}"`)
+  : (isZh ? "所有文章" : "All posts");
 
 function pageUrl(n: number): string {
   if (tag) return `/tags/${tag}`;
@@ -26,33 +29,30 @@ function pageUrl(n: number): string {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <SEO title={`${heading} · ${config.site.title}`} />
   </head>
-  <body>
-    <div class="blog-shell">
-      <header class="blog-header">
-        <h1><a href="/">{config.site.title}</a></h1>
-        <Nav />
-      </header>
-      <main>
-        <h2>{heading}</h2>
-        {posts.length === 0 && <p>No posts yet.</p>}
-        {posts.map((p) => (
-          <article class="post-card">
-            <h3><a href={`/posts/${p.slug}`}>{p.data.title}</a></h3>
-            <p class="meta">{p.data.pubDate.toISOString().slice(0, 10)}</p>
-            <p>{p.data.description}</p>
-          </article>
-        ))}
-        {!tag && page.total > 1 && (
-          <nav class="pagination">
-            {page.hasPrev && <a href={pageUrl(page.current - 1)}>&larr; Newer</a>}
-            <span>Page {page.current} / {page.total}</span>
-            {page.hasNext && <a href={pageUrl(page.current + 1)}>Older &rarr;</a>}
-          </nav>
-        )}
-      </main>
-      <footer class="blog-footer">
-        &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
-      </footer>
-    </div>
+  <body class="bg-[var(--paper)] text-[var(--text)] font-sans text-base leading-relaxed transition-colors">
+    <Nav />
+    <main class="max-w-4xl mx-auto px-6 pt-10 pb-16 min-h-[calc(100vh-56px-60px)]">
+      <h1 class="text-2xl font-semibold mb-5 pb-2 border-b border-[var(--border)] text-[var(--ink)]">{heading}</h1>
+      {posts.length === 0 && <p class="text-center py-12 text-[var(--muted)]">{isZh ? "暂无文章" : "No posts yet."}</p>}
+      {posts.map((p) => (
+        <article class="py-5 border-b border-[var(--border-light)] first:pt-0 last:border-b-0">
+          <h3 class="text-xl font-semibold mb-0.5">
+            <a href={`/posts/${p.slug}`} class="text-[var(--ink)] no-underline hover:text-[var(--accent-hover)] transition-colors">{p.data.title}</a>
+          </h3>
+          <p class="text-xs text-[var(--muted)]">{p.data.pubDate.toISOString().slice(0, 10)}</p>
+          {p.data.description && <p class="mt-1 text-sm text-[var(--muted)] leading-normal">{p.data.description}</p>}
+        </article>
+      ))}
+      {!tag && page.total > 1 && (
+        <nav class="flex items-center justify-center gap-4 mt-10 pt-5 border-t border-[var(--border-light)]">
+          {page.hasPrev && <a href={pageUrl(page.current - 1)} class="text-sm no-underline px-3.5 py-1.5 border border-[var(--border)] rounded text-[var(--accent)] hover:bg-[var(--border-light)] transition-colors">&larr; {isZh ? "较新" : "Newer"}</a>}
+          <span class="text-sm text-[var(--muted)]">{page.current} / {page.total}</span>
+          {page.hasNext && <a href={pageUrl(page.current + 1)} class="text-sm no-underline px-3.5 py-1.5 border border-[var(--border)] rounded text-[var(--accent)] hover:bg-[var(--border-light)] transition-colors">{isZh ? "较旧" : "Older"} &rarr;</a>}
+        </nav>
+      )}
+    </main>
+    <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
+      &copy; {new Date().getFullYear()} {config.site.author || config.site.title}
+    </footer>
   </body>
 </html>

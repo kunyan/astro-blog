@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#0d1117"/>
+  <rect x="50" y="50" width="200" height="120" rx="8" fill="#3178c6" opacity="0.8"/>
+  <rect x="100" y="90" width="200" height="120" rx="8" fill="#235a97" opacity="0.7"/>
+  <rect x="150" y="130" width="200" height="120" rx="8" fill="#1a4471" opacity="0.6"/>
+  <text x="160" y="105" font-family="monospace" font-size="24" fill="#fff" opacity="0.9">&lt;T&gt;</text>
+  <polygon points="550,80 650,180 450,180" fill="#3178c6" opacity="0.5"/>
+  <polygon points="600,60 720,200 480,200" fill="#235a97" opacity="0.3"/>
+  <circle cx="650" cy="300" r="40" fill="#3178c6" opacity="0.4"/>
+  <circle cx="720" cy="280" r="25" fill="#58a6ff" opacity="0.3"/>
+  <text x="400" y="350" text-anchor="middle" font-family="system-ui" font-size="30" font-weight="700" fill="#58a6ff">TypeScript 类型体操入门指南</text>
+</svg>

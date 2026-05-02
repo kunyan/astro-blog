@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#fef2f2"/>
+  <text x="60" y="50" font-family="monospace" font-size="12" fill="#dc2626" opacity="0.08">00 1A 00 01 0B 7F 60</text>
+  <text x="60" y="68" font-family="monospace" font-size="12" fill="#dc2626" opacity="0.06">01 7F 01 7F 03 02 01</text>
+  <text x="60" y="86" font-family="monospace" font-size="12" fill="#dc2626" opacity="0.1">00 07 0A 01 06 61 64</text>
+  <text x="540" y="340" font-family="monospace" font-size="12" fill="#dc2626" opacity="0.08">6D 00 0A 08 01 06 00</text>
+  <text x="540" y="358" font-family="monospace" font-size="12" fill="#dc2626" opacity="0.06">20 00 20 01 6A 0B 00</text>
+  <text x="540" y="376" font-family="monospace" font-size="12" fill="#dc2626" opacity="0.1">11 08 6E 61 6D 65 02</text>
+  <polygon points="660,120 700,100 740,120 740,160 700,180 660,160" fill="none" stroke="#dc2626" stroke-width="2" opacity="0.12"/>
+  <polygon points="670,130 700,115 730,130 730,155 700,170 670,155" fill="#dc2626" opacity="0.06"/>
+  <circle cx="140" cy="300" r="40" fill="none" stroke="#dc2626" stroke-width="2" opacity="0.1"/>
+  <circle cx="140" cy="300" r="25" fill="none" stroke="#dc2626" stroke-width="2" opacity="0.12"/>
+  <circle cx="140" cy="300" r="8" fill="#dc2626" opacity="0.1"/>
+  <rect x="133" y="255" width="14" height="12" fill="#dc2626" opacity="0.1"/>
+  <rect x="133" y="333" width="14" height="12" fill="#dc2626" opacity="0.1"/>
+  <rect x="95" y="293" width="12" height="14" fill="#dc2626" opacity="0.1"/>
+  <rect x="173" y="293" width="12" height="14" fill="#dc2626" opacity="0.1"/>
+  <text x="400" y="210" text-anchor="middle" font-family="system-ui" font-size="36" font-weight="600" fill="#dc2626">Wasm + Rust</text>
+</svg>

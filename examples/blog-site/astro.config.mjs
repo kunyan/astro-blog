@@ -5,19 +5,19 @@ export default defineConfig({
   site: "https://example.com",
   integrations: [
     blog({
-      theme: "default-tailwind",
+      theme: "default",
       site: {
         title: "Example Blog",
         description: "A demo of astro-blog.",
         author: "Kun Yan",
-        language: "en",
+        language: "zh",
         url: "https://example.com",
       },
       social: {
         github: "https://github.com/kunyan",
       },
       posts: {
-        perPage: 2,
+        perPage: 9,
         contentDir: "src/content/posts",
       },
       nav: [

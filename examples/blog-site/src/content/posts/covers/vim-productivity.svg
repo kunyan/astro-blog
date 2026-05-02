@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#fafaf9"/>
+  <rect x="100" y="60" width="44" height="44" rx="6" fill="#78716c" opacity="0.06"/>
+  <rect x="100" y="60" width="44" height="44" rx="6" fill="none" stroke="#78716c" stroke-width="1.5" opacity="0.1"/>
+  <rect x="152" y="60" width="44" height="44" rx="6" fill="#78716c" opacity="0.06"/>
+  <rect x="152" y="60" width="44" height="44" rx="6" fill="none" stroke="#78716c" stroke-width="1.5" opacity="0.1"/>
+  <rect x="204" y="60" width="44" height="44" rx="6" fill="#78716c" opacity="0.06"/>
+  <rect x="204" y="60" width="44" height="44" rx="6" fill="none" stroke="#78716c" stroke-width="1.5" opacity="0.1"/>
+  <rect x="256" y="60" width="44" height="44" rx="6" fill="#78716c" opacity="0.06"/>
+  <rect x="256" y="60" width="44" height="44" rx="6" fill="none" stroke="#78716c" stroke-width="1.5" opacity="0.1"/>
+  <rect x="540" y="300" width="48" height="48" rx="6" fill="#78716c" opacity="0.15"/>
+  <rect x="540" y="300" width="48" height="48" rx="6" fill="none" stroke="#78716c" stroke-width="2" opacity="0.2"/>
+  <rect x="596" y="300" width="48" height="48" rx="6" fill="#78716c" opacity="0.15"/>
+  <rect x="596" y="300" width="48" height="48" rx="6" fill="none" stroke="#78716c" stroke-width="2" opacity="0.2"/>
+  <rect x="652" y="300" width="48" height="48" rx="6" fill="#78716c" opacity="0.15"/>
+  <rect x="652" y="300" width="48" height="48" rx="6" fill="none" stroke="#78716c" stroke-width="2" opacity="0.2"/>
+  <rect x="708" y="300" width="48" height="48" rx="6" fill="#78716c" opacity="0.15"/>
+  <rect x="708" y="300" width="48" height="48" rx="6" fill="none" stroke="#78716c" stroke-width="2" opacity="0.2"/>
+  <path d="M558 324 L550 324 M554 320 L550 324 L554 328" stroke="#78716c" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M620 318 L620 310 M616 314 L620 310 L624 314" stroke="#78716c" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M676 330 L676 338 M672 334 L676 338 L680 334" stroke="#78716c" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M738 324 L746 324 M742 320 L746 324 L742 328" stroke="#78716c" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <rect x="100" y="310" width="3" height="24" fill="#78716c" opacity="0.3"/>
+  <text x="90" y="156" font-family="monospace" font-size="18" fill="#78716c" opacity="0.12">~</text>
+  <text x="90" y="180" font-family="monospace" font-size="18" fill="#78716c" opacity="0.12">~</text>
+  <text x="90" y="204" font-family="monospace" font-size="18" fill="#78716c" opacity="0.12">~</text>
+  <text x="400" y="210" text-anchor="middle" font-family="system-ui" font-size="36" font-weight="600" fill="#78716c">Vim 效率</text>
+</svg>

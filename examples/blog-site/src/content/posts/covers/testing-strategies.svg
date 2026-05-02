@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#f0fdf4"/>
+  <polygon points="400,40 250,360 550,360" fill="none" stroke="#16a34a" stroke-width="2" opacity="0.12"/>
+  <line x1="290" y1="250" x2="510" y2="250" stroke="#16a34a" stroke-width="1.5" opacity="0.1"/>
+  <line x1="330" y1="150" x2="470" y2="150" stroke="#16a34a" stroke-width="1.5" opacity="0.1"/>
+  <path d="M100 80 L110 95 L130 65" stroke="#16a34a" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.15"/>
+  <path d="M680 120 L690 135 L710 105" stroke="#16a34a" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.12"/>
+  <path d="M90 300 L100 315 L120 285" stroke="#16a34a" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.1"/>
+  <path d="M700 310 L710 325 L730 295" stroke="#16a34a" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.15"/>
+  <line x1="700" y1="220" x2="720" y2="240" stroke="#16a34a" stroke-width="2.5" opacity="0.08"/>
+  <line x1="720" y1="220" x2="700" y2="240" stroke="#16a34a" stroke-width="2.5" opacity="0.08"/>
+  <circle cx="350" cy="300" r="5" fill="#16a34a" opacity="0.12"/>
+  <circle cx="375" cy="300" r="5" fill="#16a34a" opacity="0.15"/>
+  <circle cx="400" cy="300" r="5" fill="#16a34a" opacity="0.1"/>
+  <circle cx="425" cy="300" r="5" fill="#16a34a" opacity="0.12"/>
+  <circle cx="450" cy="300" r="5" fill="#16a34a" opacity="0.15"/>
+  <text x="400" y="210" text-anchor="middle" font-family="system-ui" font-size="36" font-weight="600" fill="#16a34a">测试策略</text>
+</svg>

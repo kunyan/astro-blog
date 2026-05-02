@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#0a192f"/>
+  <circle cx="400" cy="180" r="90" fill="none" stroke="#61dafb" stroke-width="3"/>
+  <circle cx="400" cy="180" r="60" fill="none" stroke="#61dafb" stroke-width="2" opacity="0.7"/>
+  <circle cx="400" cy="180" r="15" fill="#61dafb"/>
+  <ellipse cx="400" cy="180" rx="140" ry="50" fill="none" stroke="#61dafb" stroke-width="2" opacity="0.5" transform="rotate(60 400 180)"/>
+  <ellipse cx="400" cy="180" rx="140" ry="50" fill="none" stroke="#61dafb" stroke-width="2" opacity="0.5" transform="rotate(-60 400 180)"/>
+  <rect x="580" y="60" width="160" height="80" rx="6" fill="#112240" stroke="#61dafb" stroke-width="1.5" opacity="0.8"/>
+  <text x="660" y="105" text-anchor="middle" font-family="monospace" font-size="14" fill="#61dafb">Server</text>
+  <rect x="60" y="250" width="160" height="80" rx="6" fill="#112240" stroke="#64ffda" stroke-width="1.5" opacity="0.8"/>
+  <text x="140" y="295" text-anchor="middle" font-family="monospace" font-size="14" fill="#64ffda">Client</text>
+  <text x="400" y="365" text-anchor="middle" font-family="system-ui" font-size="28" font-weight="700" fill="#ccd6f6">React Server Components 全面解读</text>
+</svg>

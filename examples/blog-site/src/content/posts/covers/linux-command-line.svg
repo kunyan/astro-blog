@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#fafafa"/>
+  <rect x="80" y="40" width="640" height="320" rx="12" fill="#3f3f46" opacity="0.06"/>
+  <rect x="80" y="40" width="640" height="36" rx="12" fill="#3f3f46" opacity="0.1"/>
+  <circle cx="106" cy="58" r="6" fill="#3f3f46" opacity="0.2"/>
+  <circle cx="126" cy="58" r="6" fill="#3f3f46" opacity="0.2"/>
+  <circle cx="146" cy="58" r="6" fill="#3f3f46" opacity="0.2"/>
+  <rect x="110" y="100" width="16" height="3" fill="#3f3f46" opacity="0.25"/>
+  <rect x="134" y="100" width="180" height="3" rx="1" fill="#3f3f46" opacity="0.12"/>
+  <rect x="110" y="130" width="16" height="3" fill="#3f3f46" opacity="0.25"/>
+  <rect x="134" y="130" width="240" height="3" rx="1" fill="#3f3f46" opacity="0.12"/>
+  <rect x="110" y="160" width="16" height="3" fill="#3f3f46" opacity="0.25"/>
+  <rect x="134" y="160" width="140" height="3" rx="1" fill="#3f3f46" opacity="0.12"/>
+  <rect x="110" y="290" width="16" height="3" fill="#3f3f46" opacity="0.25"/>
+  <rect x="134" y="286" width="10" height="12" fill="#3f3f46" opacity="0.3"/>
+  <text x="400" y="210" text-anchor="middle" font-family="system-ui" font-size="36" font-weight="600" fill="#3f3f46">Linux 命令行</text>
+</svg>

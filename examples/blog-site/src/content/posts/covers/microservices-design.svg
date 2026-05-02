@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#1a0533"/>
+  <circle cx="400" cy="160" r="35" fill="#7c3aed" opacity="0.7"/>
+  <circle cx="250" cy="100" r="28" fill="#8b5cf6" opacity="0.5"/>
+  <circle cx="550" cy="100" r="28" fill="#8b5cf6" opacity="0.5"/>
+  <circle cx="200" cy="220" r="28" fill="#a78bfa" opacity="0.4"/>
+  <circle cx="600" cy="220" r="28" fill="#a78bfa" opacity="0.4"/>
+  <circle cx="320" cy="270" r="22" fill="#7c3aed" opacity="0.3"/>
+  <circle cx="480" cy="270" r="22" fill="#7c3aed" opacity="0.3"/>
+  <line x1="275" y1="115" x2="370" y2="145" stroke="#a78bfa" stroke-width="2" opacity="0.6"/>
+  <line x1="525" y1="115" x2="430" y2="145" stroke="#a78bfa" stroke-width="2" opacity="0.6"/>
+  <line x1="225" y1="205" x2="370" y2="170" stroke="#a78bfa" stroke-width="2" opacity="0.5"/>
+  <line x1="575" y1="205" x2="430" y2="170" stroke="#a78bfa" stroke-width="2" opacity="0.5"/>
+  <line x1="250" y1="125" x2="210" y2="195" stroke="#c4b5fd" stroke-width="1.5" opacity="0.4"/>
+  <line x1="550" y1="125" x2="590" y2="195" stroke="#c4b5fd" stroke-width="1.5" opacity="0.4"/>
+  <line x1="335" y1="260" x2="380" y2="190" stroke="#c4b5fd" stroke-width="1.5" opacity="0.3"/>
+  <line x1="465" y1="260" x2="420" y2="190" stroke="#c4b5fd" stroke-width="1.5" opacity="0.3"/>
+  <rect x="80" y="60" width="20" height="20" rx="3" fill="#7c3aed" opacity="0.2"/>
+  <rect x="700" y="60" width="20" height="20" rx="3" fill="#7c3aed" opacity="0.2"/>
+  <text x="400" y="360" text-anchor="middle" font-family="system-ui" font-size="30" font-weight="700" fill="#c4b5fd">微服务架构设计</text>
+</svg>

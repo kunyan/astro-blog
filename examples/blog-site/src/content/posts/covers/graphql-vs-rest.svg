@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#faf5ff"/>
+  <rect x="60" y="60" width="300" height="220" rx="12" fill="#e535ab" opacity="0.15"/>
+  <rect x="440" y="60" width="300" height="220" rx="12" fill="#2563eb" opacity="0.15"/>
+  <circle cx="210" cy="150" r="40" fill="#e535ab" opacity="0.6"/>
+  <circle cx="150" cy="220" r="25" fill="#e535ab" opacity="0.4"/>
+  <circle cx="270" cy="220" r="25" fill="#e535ab" opacity="0.4"/>
+  <line x1="210" y1="150" x2="150" y2="220" stroke="#e535ab" stroke-width="2" opacity="0.5"/>
+  <line x1="210" y1="150" x2="270" y2="220" stroke="#e535ab" stroke-width="2" opacity="0.5"/>
+  <line x1="150" y1="220" x2="270" y2="220" stroke="#e535ab" stroke-width="2" opacity="0.5"/>
+  <rect x="480" y="110" width="220" height="30" rx="4" fill="#2563eb" opacity="0.5"/>
+  <rect x="480" y="155" width="180" height="30" rx="4" fill="#2563eb" opacity="0.4"/>
+  <rect x="480" y="200" width="200" height="30" rx="4" fill="#2563eb" opacity="0.3"/>
+  <text x="210" y="95" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#e535ab">GraphQL</text>
+  <text x="590" y="95" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#2563eb">REST</text>
+  <text x="400" y="140" text-anchor="middle" font-family="system-ui" font-size="28" font-weight="700" fill="#333">vs</text>
+  <text x="400" y="360" text-anchor="middle" font-family="system-ui" font-size="30" font-weight="700" fill="#4c1d95">GraphQL vs REST：如何选择</text>
+</svg>

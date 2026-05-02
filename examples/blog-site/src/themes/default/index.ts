@@ -5,5 +5,5 @@ export { default as Page } from "./Page.astro";
 
 export const meta = {
   name: "default",
-  description: "The default astro-blog theme.",
+  description: "Default theme with Tailwind CSS v4 and dark mode.",
 };
