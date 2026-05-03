@@ -8,7 +8,7 @@
 
 pnpm monorepo (`pnpm-workspace.yaml`):
 
-- `packages/astro-blog/` — the integration package (npm: `astro-blog`)
+- `packages/astro-blog/` — the integration package (npm: `@kunyan/astro-blog`)
 - `examples/blog-site/` — example Astro site using the integration
 
 ```
@@ -41,10 +41,10 @@ packages/astro-blog/
 pnpm install
 
 # Run unit tests (packages/astro-blog)
-pnpm --filter astro-blog test
+pnpm --filter @kunyan/astro-blog test
 
 # Run a single test file
-pnpm --filter astro-blog test -- __tests__/options.test.ts
+pnpm --filter @kunyan/astro-blog test -- __tests__/options.test.ts
 
 # Build example site
 pnpm --filter blog-site build
@@ -59,7 +59,7 @@ pnpm verify:example
 ## Development Workflow
 
 1. Edit source in `packages/astro-blog/src/`
-2. Run `pnpm --filter astro-blog test` to verify unit tests
+2. Run `pnpm --filter @kunyan/astro-blog test` to verify unit tests
 3. Sync theme files to example: `cp packages/astro-blog/src/themes/default/*.astro examples/blog-site/src/themes/default/`
 4. Run `pnpm --filter blog-site build` to verify full build
 5. All 33 tests should pass; build should produce 131+ pages
@@ -69,7 +69,7 @@ pnpm verify:example
 - Framework: Vitest (`__tests__/*.test.ts`)
 - Tests cover: options validation, post helpers, virtual module codegen, SEO component
 - No mocking of the database or Astro runtime — tests validate pure functions only
-- Run all: `pnpm --filter astro-blog test`
+- Run all: `pnpm --filter @kunyan/astro-blog test`
 
 ## Architecture Notes
 

@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import blog from "astro-blog";
+import blog from "@kunyan/astro-blog";
 
 export default defineConfig({
   site: "https://kunyan.github.io",

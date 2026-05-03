@@ -25,12 +25,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Type check
-        run: pnpm --filter astro-blog build
+        run: pnpm --filter @kunyan/astro-blog build
 
       - name: Unit tests
-        run: pnpm --filter astro-blog test
+        run: pnpm --filter @kunyan/astro-blog test
 
       - name: Publish
-        run: pnpm --filter astro-blog publish --no-git-checks --access public
+        run: pnpm --filter @kunyan/astro-blog publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -14,12 +14,12 @@ importers:
 
   examples/blog-site:
     dependencies:
+      '@kunyan/astro-blog':
+        specifier: workspace:*
+        version: link:../../packages/astro-blog
       astro:
         specifier: ^5.0.0
         version: 5.18.1(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.2)(typescript@5.9.3)
-      astro-blog:
-        specifier: workspace:*
-        version: link:../../packages/astro-blog
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.0

@@ -1,10 +1,10 @@
 ---
 import "./styles.css";
 import config from "astro-blog:config";
-import SEO from "astro-blog/components/SEO";
+import SEO from "@kunyan/astro-blog/components/SEO";
 import Nav from "./Nav.astro";
 import type { CollectionEntry } from "astro:content";
-import type { PageInfo } from "astro-blog/lib/posts";
+import type { PageInfo } from "@kunyan/astro-blog/lib/posts";
 
 interface Props {
   posts: CollectionEntry<"posts">[];
