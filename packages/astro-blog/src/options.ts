@@ -16,12 +16,12 @@ const socialSchema = z
   })
   .default({});
 
-const postsSchema = z
-  .object({
-    perPage: z.number().int().positive().default(10),
-    contentDir: z.string().default("src/content/posts"),
-  })
-  .default({});
+const postsInnerSchema = z.object({
+  perPage: z.number().int().positive().default(10),
+  contentDir: z.string().default("src/content/posts"),
+});
+
+const postsSchema = postsInnerSchema.default(postsInnerSchema.parse({}));
 
 export type NavLeaf = { name: string; path: string };
 export type NavGroup = { name: string; children: NavItem[] };
@@ -50,7 +50,7 @@ export type ResolvedOptions = z.output<typeof optionsSchema>;
 export function validateOptions(input: AstroBlogOptions): ResolvedOptions {
   const result = optionsSchema.safeParse(input);
   if (!result.success) {
-    const detail = result.error.errors
+    const detail = result.error.issues
       .map((e) => `  - ${e.path.join(".") || "(root)"}: ${e.message}`)
       .join("\n");
     throw new Error(`[astro-blog] Invalid options:\n${detail}`);
