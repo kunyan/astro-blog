@@ -1,10 +1,10 @@
-declare module "astro-blog:config" {
+declare module "@kunyan/astro-blog:config" {
   import type { ResolvedOptions } from "./options.js";
   const config: ResolvedOptions;
   export default config;
 }
 
-declare module "astro-blog:current-theme" {
+declare module "@kunyan/astro-blog:current-theme" {
   export const Home: any;
   export const List: any;
   export const Post: any;

@@ -1,5 +1,8 @@
 ---
-import config from "astro-blog:config";
+interface Props {
+  config: any;
+  base: string;
+}
 
 type NavLeaf = { name: string; path: string };
 type NavGroup = { name: string; children: NavItem[] };
@@ -9,14 +12,13 @@ function isLeaf(item: NavItem): item is NavLeaf {
   return "path" in item;
 }
 
+const { config, base } = Astro.props;
 const items: NavItem[] = config.nav ?? [];
 const social = config.social ?? {};
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const isZh = (config.site.language ?? "").startsWith("zh");
 const labels = {
   home: isZh ? "首页" : "Home",
   posts: isZh ? "文章" : "Posts",
-  toc: isZh ? "目录" : "Table of Contents",
 };
 ---
 <script is:inline>

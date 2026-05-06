@@ -1,6 +1,5 @@
 ---
 import "./styles.css";
-import config from "astro-blog:config";
 import SEO from "@kunyan/astro-blog/components/SEO";
 import Nav from "./Nav.astro";
 import type { CollectionEntry } from "astro:content";
@@ -10,19 +9,16 @@ interface Props {
   posts: CollectionEntry<"posts">[];
   page: PageInfo;
   tag?: string;
+  pageUrl: (n: number) => string;
+  config: any;
+  base: string;
 }
 
-const { posts, page, tag } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const { posts, page, tag, pageUrl, config, base } = Astro.props;
 const isZh = (config.site.language ?? "").startsWith("zh");
 const heading = tag
   ? (isZh ? `标签「${tag}」的文章` : `Posts tagged "${tag}"`)
   : (isZh ? "所有文章" : "All posts");
-
-function pageUrl(n: number): string {
-  if (tag) return `${base}/tags/${tag}`;
-  return n === 1 ? `${base}/posts` : `${base}/posts/page/${n}`;
-}
 ---
 <html lang={config.site.language}>
   <head>
@@ -31,7 +27,7 @@ function pageUrl(n: number): string {
     <SEO title={`${heading} · ${config.site.title}`} />
   </head>
   <body class="bg-[var(--paper)] text-[var(--text)] font-sans text-base leading-relaxed transition-colors">
-    <Nav />
+    <Nav config={config} base={base} />
     <main class="max-w-4xl mx-auto px-6 pt-10 pb-16 min-h-[calc(100vh-56px-60px)]">
       <h1 class="text-2xl font-semibold mb-5 pb-2 border-b border-[var(--border)] text-[var(--ink)]">{heading}</h1>
       {posts.length === 0 && <p class="text-center py-12 text-[var(--muted)]">{isZh ? "暂无文章" : "No posts yet."}</p>}

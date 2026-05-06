@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**astro-blog** is an Astro integration that turns any Astro project into a themed blog. It provides route injection, content schemas, theme seeding, dark mode, and i18n support out of the box.
+**astro-blog** is an Astro integration that turns any Astro project into a themed blog. It provides page seeding, content schemas, theme seeding, dark mode, and i18n support out of the box.
 
 ## Repository Structure
 
@@ -21,7 +21,7 @@ packages/astro-blog/
     components/SEO.astro
     lib/posts.ts      # Post helpers (getPublishedPosts, paginate)
     lib/pages.ts      # Page helpers
-    routes/           # Injected Astro routes (home, list, post, tag, page, rss)
+    pages/            # Seed pages (copied to user's src/pages/ on first build)
     themes/default/   # Seed theme (copied to user's src/themes/ on first build)
   __tests__/          # Vitest unit tests
 ```
@@ -29,6 +29,7 @@ packages/astro-blog/
 ## Key Concepts
 
 - **Theme seeding**: On first build, the integration copies `src/themes/<name>/` from the package to the user's project. Users then own and customize the theme files.
+- **Page seeding**: On first build, the integration copies route pages to `src/pages/` in the user's project, following Astro's standard file-based routing convention. Users own and can customize the route files.
 - **Virtual modules**: `astro-blog:config` provides resolved options at runtime; `astro-blog:current-theme` resolves to the user's theme barrel export.
 - **Tailwind CSS v4**: Required peer dependency. Auto-configured via `@tailwindcss/vite` plugin in the integration hook using `createRequire` (not dynamic import).
 - **Dark mode**: Class-based (`.dark` on `<html>`), toggle + system preference, no-flash via `<script is:inline>`.
@@ -74,7 +75,7 @@ pnpm verify:example
 ## Architecture Notes
 
 - The integration factory (`src/index.ts`) returns `[blogIntegration, sitemap()]`
-- Routes are injected via Astro's `injectRoute` API, not file-based routing
+- Routes use Astro's standard file-based routing in `src/pages/`, seeded on first build
 - Theme components receive data as props from route files (e.g., `<Post post={post} />`)
 - `post.render()` returns `{ Content, headings }` — headings used for TOC sidebar
 - Content collections: `posts` (with cover image support) and `pages` (static pages)

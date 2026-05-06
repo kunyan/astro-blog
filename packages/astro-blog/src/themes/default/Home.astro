@@ -1,6 +1,5 @@
 ---
 import "./styles.css";
-import config from "astro-blog:config";
 import SEO from "@kunyan/astro-blog/components/SEO";
 import Nav from "./Nav.astro";
 import { Image } from "astro:assets";
@@ -9,10 +8,11 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   posts: CollectionEntry<"posts">[];
   hasMore?: boolean;
+  config: any;
+  base: string;
 }
 
-const { posts, hasMore = false } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const { posts, hasMore = false, config, base } = Astro.props;
 const isZh = (config.site.language ?? "").startsWith("zh");
 ---
 <html lang={config.site.language}>
@@ -22,7 +22,7 @@ const isZh = (config.site.language ?? "").startsWith("zh");
     <SEO />
   </head>
   <body class="bg-[var(--paper)] text-[var(--text)] font-sans text-base leading-relaxed transition-colors">
-    <Nav />
+    <Nav config={config} base={base} />
     {config.site.description && (
       <section class="border-b border-[var(--border-light)] py-16 px-6">
         <p class="max-w-2xl mx-auto text-2xl text-center text-[var(--muted)] leading-relaxed">{config.site.description}</p>

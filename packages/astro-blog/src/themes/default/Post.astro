@@ -1,18 +1,18 @@
 ---
 import "./styles.css";
-import config from "astro-blog:config";
 import SEO from "@kunyan/astro-blog/components/SEO";
 import Nav from "./Nav.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
   post: CollectionEntry<"posts">;
+  Content: any;
+  tocHeadings: { depth: number; slug: string; text: string }[];
+  config: any;
+  base: string;
 }
 
-const { post } = Astro.props;
-const { Content, headings } = await post.render();
-const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const { post, Content, tocHeadings, config, base } = Astro.props;
 const isZh = (config.site.language ?? "").startsWith("zh");
 const tocTitle = isZh ? "目录" : "Table of Contents";
 ---
@@ -27,7 +27,7 @@ const tocTitle = isZh ? "目录" : "Table of Contents";
     />
   </head>
   <body class="bg-[var(--paper)] text-[var(--text)] font-sans text-base leading-relaxed transition-colors">
-    <Nav />
+    <Nav config={config} base={base} />
     <div class="max-w-6xl mx-auto px-6 pt-10 pb-16 min-h-[calc(100vh-56px-60px)] lg:flex lg:gap-10">
       <main class="min-w-0 flex-1">
         <article>

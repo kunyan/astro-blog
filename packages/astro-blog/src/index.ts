@@ -7,18 +7,18 @@ import { createRequire } from "node:module";
 import { validateOptions, type AstroBlogOptions } from "./options.js";
 import { generateConfigSource } from "./virtual.js";
 
-const VIRTUAL_CONFIG_ID = "astro-blog:config";
-const RESOLVED_VIRTUAL_CONFIG_ID = "\0astro-blog:config";
-const VIRTUAL_THEME_ID = "astro-blog:current-theme";
+const VIRTUAL_CONFIG_ID = "@kunyan/astro-blog:config";
+const RESOLVED_VIRTUAL_CONFIG_ID = "\0@kunyan/astro-blog:config";
+const VIRTUAL_THEME_ID = "@kunyan/astro-blog:current-theme";
 
 export type { AstroBlogOptions, ResolvedOptions } from "./options.js";
 
-function routeEntrypoint(name: string): string {
-  return fileURLToPath(new URL(`./routes/${name}`, import.meta.url));
-}
-
 function seedThemesDir(): string {
   return fileURLToPath(new URL("./themes/", import.meta.url));
+}
+
+function seedPagesDir(): string {
+  return fileURLToPath(new URL("./pages/", import.meta.url));
 }
 
 export default function blog(options: AstroBlogOptions): AstroIntegration[] {
@@ -27,7 +27,7 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
   const blogIntegration: AstroIntegration = {
     name: "astro-blog",
     hooks: {
-      "astro:config:setup": async ({ config: astroConfig, updateConfig, injectRoute, logger }) => {
+      "astro:config:setup": async ({ config: astroConfig, updateConfig, logger }) => {
         const projectRoot = fileURLToPath(astroConfig.root);
         const userThemesDir = join(projectRoot, "src/themes");
         const userThemeDir = join(userThemesDir, config.theme);
@@ -46,6 +46,17 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
               `[astro-blog] Theme "${config.theme}" not found.\n` +
                 `Create it at src/themes/${config.theme}/ or use one of: ${available.join(", ")}.`
             );
+          }
+        }
+
+        const userPagesDir = join(projectRoot, "src/pages");
+        const userPagesIndex = join(userPagesDir, "index.astro");
+
+        if (!existsSync(userPagesIndex)) {
+          const seedDir = seedPagesDir();
+          if (existsSync(seedDir)) {
+            logger.info(`Copying page routes to src/pages/`);
+            cpSync(seedDir, userPagesDir, { recursive: true });
           }
         }
 
@@ -71,7 +82,7 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
           vite: {
             plugins: [
               {
-                name: "astro-blog:virtual",
+                name: "@kunyan/astro-blog:virtual",
                 enforce: "pre",
                 resolveId(id) {
                   if (id === VIRTUAL_CONFIG_ID) return RESOLVED_VIRTUAL_CONFIG_ID;
@@ -85,29 +96,6 @@ export default function blog(options: AstroBlogOptions): AstroIntegration[] {
               },
             ],
           },
-        });
-
-        injectRoute({ pattern: "/", entrypoint: routeEntrypoint("home.astro") });
-        injectRoute({ pattern: "/posts", entrypoint: routeEntrypoint("list.astro") });
-        injectRoute({
-          pattern: "/posts/page/[page]",
-          entrypoint: routeEntrypoint("list-page.astro"),
-        });
-        injectRoute({
-          pattern: "/posts/[slug]",
-          entrypoint: routeEntrypoint("post.astro"),
-        });
-        injectRoute({
-          pattern: "/tags/[tag]",
-          entrypoint: routeEntrypoint("tag.astro"),
-        });
-        injectRoute({
-          pattern: "/rss.xml",
-          entrypoint: routeEntrypoint("rss.xml.ts"),
-        });
-        injectRoute({
-          pattern: "/[slug]",
-          entrypoint: routeEntrypoint("page.astro"),
         });
       },
     },
