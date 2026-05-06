@@ -12,9 +12,9 @@ vi.mock("astro:content", () => ({
 }));
 
 const post = (overrides: Record<string, unknown> = {}) => {
-  const { slug, ...dataOverrides } = overrides;
+  const { id, ...dataOverrides } = overrides;
   return {
-    slug: slug ?? "x",
+    id: id ?? "x",
     data: {
       title: "x",
       description: "x",
@@ -140,9 +140,9 @@ import {
 } from "../src/lib/posts";
 
 const sample = [
-  post({ slug: "old", pubDate: new Date("2026-01-01"), tags: ["a"] }),
-  post({ slug: "draft", pubDate: new Date("2026-02-01"), draft: true, tags: ["a", "b"] }),
-  post({ slug: "new", pubDate: new Date("2026-03-01"), tags: ["b"] }),
+  post({ id: "old", pubDate: new Date("2026-01-01"), tags: ["a"] }),
+  post({ id: "draft", pubDate: new Date("2026-02-01"), draft: true, tags: ["a", "b"] }),
+  post({ id: "new", pubDate: new Date("2026-03-01"), tags: ["b"] }),
 ];
 
 describe("getPublishedPosts", () => {
@@ -153,13 +153,13 @@ describe("getPublishedPosts", () => {
   it("excludes drafts and sorts most-recent first when isDev=false", async () => {
     vi.mocked(getCollection).mockResolvedValue(sample);
     const result = await getPublishedPosts({ isDev: false });
-    expect(result.map((p) => p.slug)).toEqual(["new", "old"]);
+    expect(result.map((p) => p.id)).toEqual(["new", "old"]);
   });
 
   it("includes drafts when isDev=true, still sorted desc", async () => {
     vi.mocked(getCollection).mockResolvedValue(sample);
     const result = await getPublishedPosts({ isDev: true });
-    expect(result.map((p) => p.slug)).toEqual(["new", "draft", "old"]);
+    expect(result.map((p) => p.id)).toEqual(["new", "draft", "old"]);
   });
 });
 
@@ -171,7 +171,7 @@ describe("getPostBySlug", () => {
 
   it("returns the matching published post", async () => {
     const r = await getPostBySlug("new", { isDev: false });
-    expect(r?.slug).toBe("new");
+    expect(r?.id).toBe("new");
   });
 
   it("does not return a draft when isDev=false", async () => {
@@ -181,7 +181,7 @@ describe("getPostBySlug", () => {
 
   it("returns a draft when isDev=true", async () => {
     const r = await getPostBySlug("draft", { isDev: true });
-    expect(r?.slug).toBe("draft");
+    expect(r?.id).toBe("draft");
   });
 });
 
@@ -193,7 +193,7 @@ describe("getPostsByTag", () => {
 
   it("returns only published posts with that tag, sorted desc", async () => {
     const r = await getPostsByTag("b", { isDev: false });
-    expect(r.map((p) => p.slug)).toEqual(["new"]);
+    expect(r.map((p) => p.id)).toEqual(["new"]);
   });
 });
 

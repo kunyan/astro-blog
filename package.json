@@ -14,6 +14,6 @@
     "verify:example": "pnpm build:example && node scripts/verify-example-build.mjs"
   },
   "devDependencies": {
-    "typescript": "^5.4.0"
+    "typescript": "6.0.3"
   }
 }

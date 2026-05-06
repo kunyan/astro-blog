@@ -63,7 +63,7 @@ export async function getPostBySlug(
   opts: ContentOptions
 ): Promise<Post | undefined> {
   const all = await getPublishedPosts(opts);
-  return all.find((p) => p.slug === slug);
+  return all.find((p) => p.id === slug);
 }
 
 export async function getPostsByTag(

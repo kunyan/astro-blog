@@ -1,4 +1,5 @@
-import { z, type SchemaContext } from "astro:content";
+import { z } from "astro/zod";
+import type { SchemaContext } from "astro:content";
 
 export const postSchema = ({ image }: SchemaContext) =>
   z.object({

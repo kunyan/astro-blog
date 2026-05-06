@@ -32,7 +32,7 @@ const isZh = (config.site.language ?? "").startsWith("zh");
       {posts.length === 0 && <p class="text-center py-12 text-[var(--muted)]">No posts yet.</p>}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((p) => (
-          <a href={`${base}/posts/${p.slug}`} class="group block no-underline rounded-lg border border-[var(--border-light)] overflow-hidden hover:border-[var(--border)] hover:shadow-lg transition-all duration-300">
+          <a href={`${base}/posts/${p.id}`} class="group block no-underline rounded-lg border border-[var(--border-light)] overflow-hidden hover:border-[var(--border)] hover:shadow-lg transition-all duration-300">
             <div class="overflow-hidden aspect-[2/1] bg-[var(--border-light)]">
               {p.data.cover ? (
                 <Image
