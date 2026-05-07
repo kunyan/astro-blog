@@ -11,16 +11,17 @@ const translations: Record<string, TranslationDict> = {
 };
 
 export function createT(language: string) {
+  const fallback = translations.en!;
   const dict =
     translations[language] ??
-    translations[language.split("-")[0]] ??
-    translations.en;
+    translations[language.split("-")[0]!] ??
+    fallback;
 
   return function t(
     key: TranslationKey,
     params?: Record<string, string>,
   ): string {
-    let value = dict[key] ?? translations.en[key] ?? key;
+    let value = dict[key] ?? fallback[key] ?? key;
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         value = value.replace(`{${k}}`, v);
