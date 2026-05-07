@@ -1,0 +1,16 @@
+export default {
+  "nav.home": "首页",
+  "nav.posts": "文章",
+  "posts.viewAll": "查看全部文章 →",
+  "posts.empty": "暂无文章",
+  "posts.all": "所有文章",
+  "posts.tagged": "标签「{tag}」的文章",
+  "post.toc": "目录",
+  "post.updated": "更新于",
+  "footer.poweredBy": "由",
+  "aria.toggleDark": "切换暗色模式",
+  "aria.toggleMenu": "切换菜单",
+  "aria.github": "GitHub",
+  "aria.twitter": "Twitter",
+  "aria.email": "邮件",
+} as const;
