@@ -7,7 +7,7 @@ export default {
   "posts.tagged": 'Posts tagged "{tag}"',
   "post.toc": "Table of Contents",
   "post.updated": "updated",
-  "footer.poweredBy": "Powered by",
+  "footer.poweredBy": "Powered by {name}",
   "aria.toggleDark": "Toggle dark mode",
   "aria.toggleMenu": "Toggle menu",
   "aria.github": "GitHub",

@@ -7,7 +7,7 @@ export default {
   "posts.tagged": "标签「{tag}」的文章",
   "post.toc": "目录",
   "post.updated": "更新于",
-  "footer.poweredBy": "由",
+  "footer.poweredBy": "由 {name} 提供支持",
   "aria.toggleDark": "切换暗色模式",
   "aria.toggleMenu": "切换菜单",
   "aria.github": "GitHub",
