@@ -4,6 +4,8 @@ import SEO from "@kunyan/astro-blog/components/SEO";
 import Nav from "./Nav.astro";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import { createT, createDateFormatter } from "./i18n";
+import Footer from "./Footer.astro";
 
 interface Props {
   posts: CollectionEntry<"posts">[];
@@ -13,7 +15,8 @@ interface Props {
 }
 
 const { posts, hasMore = false, config, base } = Astro.props;
-const isZh = (config.site.language ?? "").startsWith("zh");
+const t = createT(config.site.language);
+const formatDate = createDateFormatter(config.site.language);
 ---
 <html lang={config.site.language}>
   <head>
@@ -29,7 +32,7 @@ const isZh = (config.site.language ?? "").startsWith("zh");
       </section>
     )}
     <main class="max-w-7xl mx-auto px-6 pt-10 pb-16">
-      {posts.length === 0 && <p class="text-center py-12 text-[var(--muted)]">No posts yet.</p>}
+      {posts.length === 0 && <p class="text-center py-12 text-[var(--muted)]">{t("posts.empty")}</p>}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((p) => (
           <a href={`${base}/posts/${p.id}`} class="group block no-underline rounded-lg border border-[var(--border-light)] overflow-hidden hover:border-[var(--border)] hover:shadow-lg transition-all duration-300">
@@ -49,7 +52,7 @@ const isZh = (config.site.language ?? "").startsWith("zh");
               )}
             </div>
             <div class="p-4">
-              <p class="text-xs text-[var(--muted)] mb-1">{p.data.pubDate.toISOString().slice(0, 10)}</p>
+              <p class="text-xs text-[var(--muted)] mb-1">{formatDate(p.data.pubDate)}</p>
               <h2 class="text-lg font-semibold text-[var(--ink)] leading-snug group-hover:text-[var(--accent-hover)] transition-colors">{p.data.title}</h2>
               {p.data.description && <p class="mt-1.5 text-sm text-[var(--muted)] leading-normal line-clamp-2">{p.data.description}</p>}
             </div>
@@ -59,13 +62,11 @@ const isZh = (config.site.language ?? "").startsWith("zh");
       {hasMore && (
         <div class="mt-10 text-center">
           <a href={`${base}/posts`} class="inline-block text-sm no-underline px-5 py-2 border border-[var(--border)] rounded text-[var(--ink)] hover:bg-[var(--border-light)] transition-colors">
-            {isZh ? "查看全部文章 →" : "View all posts →"}
+{t("posts.viewAll")}
           </a>
         </div>
       )}
     </main>
-    <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
-      &copy; {new Date().getFullYear()} {config.site.author || config.site.title} · Powered by <a href="https://github.com/kunyan/astro-blog" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors underline">astro-blog</a>
-    </footer>
+    <Footer config={config} />
   </body>
 </html>
