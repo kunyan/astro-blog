@@ -2,6 +2,8 @@
 import "./styles.css";
 import SEO from "@kunyan/astro-blog/components/SEO";
 import Nav from "./Nav.astro";
+import { createT, createDateFormatter } from "./i18n";
+import Footer from "./Footer.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -13,8 +15,8 @@ interface Props {
 }
 
 const { post, Content, tocHeadings, config, base } = Astro.props;
-const isZh = (config.site.language ?? "").startsWith("zh");
-const tocTitle = isZh ? "目录" : "Table of Contents";
+const t = createT(config.site.language);
+const formatDate = createDateFormatter(config.site.language);
 ---
 <html lang={config.site.language}>
   <head>
@@ -33,9 +35,9 @@ const tocTitle = isZh ? "目录" : "Table of Contents";
         <article>
           <header class="mb-8 pb-5 border-b border-[var(--border-light)]">
             <p class="text-xs text-[var(--muted)] mb-2">
-              {post.data.pubDate.toISOString().slice(0, 10)}
+              {formatDate(post.data.pubDate)}
               {post.data.updatedDate && (
-                <> · updated {post.data.updatedDate.toISOString().slice(0, 10)}</>
+                <> · {t("post.updated")} {formatDate(post.data.updatedDate)}</>
               )}
             </p>
             <h1 class="text-3xl font-semibold text-[var(--ink)]">{post.data.title}</h1>
@@ -56,7 +58,7 @@ const tocTitle = isZh ? "目录" : "Table of Contents";
       {tocHeadings.length > 0 && (
         <aside class="hidden lg:block w-56 shrink-0">
           <nav id="toc" class="sticky top-20">
-            <p class="text-xs font-semibold text-[var(--ink)] uppercase tracking-wide mb-3">{tocTitle}</p>
+            <p class="text-xs font-semibold text-[var(--ink)] uppercase tracking-wide mb-3">{t("post.toc")}</p>
             <ul class="list-none p-0 m-0 space-y-1.5 border-l border-[var(--border-light)]">
               {tocHeadings.map((h) => (
                 <li>
@@ -78,9 +80,7 @@ const tocTitle = isZh ? "目录" : "Table of Contents";
         </aside>
       )}
     </div>
-    <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
-      &copy; {new Date().getFullYear()} {config.site.author || config.site.title} · Powered by <a href="https://github.com/kunyan/astro-blog" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors underline">astro-blog</a>
-    </footer>
+    <Footer config={config} />
   </body>
 </html>
 
