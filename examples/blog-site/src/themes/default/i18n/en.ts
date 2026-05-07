@@ -1,0 +1,16 @@
+export default {
+  "nav.home": "Home",
+  "nav.posts": "Posts",
+  "posts.viewAll": "View all posts →",
+  "posts.empty": "No posts yet.",
+  "posts.all": "All posts",
+  "posts.tagged": 'Posts tagged "{tag}"',
+  "post.toc": "Table of Contents",
+  "post.updated": "updated",
+  "footer.poweredBy": "Powered by",
+  "aria.toggleDark": "Toggle dark mode",
+  "aria.toggleMenu": "Toggle menu",
+  "aria.github": "GitHub",
+  "aria.twitter": "Twitter",
+  "aria.email": "Email",
+} as const;

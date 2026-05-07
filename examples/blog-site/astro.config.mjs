@@ -11,7 +11,7 @@ export default defineConfig({
         title: "Example Blog",
         description: "A demo of astro-blog.",
         author: "Kun Yan",
-        language: "zh",
+        language: "zh-CN",
         url: "https://kunyan.github.io/astro-blog",
       },
       social: {

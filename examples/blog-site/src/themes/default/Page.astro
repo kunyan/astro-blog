@@ -2,6 +2,7 @@
 import "./styles.css";
 import SEO from "@kunyan/astro-blog/components/SEO";
 import Nav from "./Nav.astro";
+import Footer from "./Footer.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -34,8 +35,6 @@ const { page, Content, config, base } = Astro.props;
         </div>
       </article>
     </main>
-    <footer class="border-t border-[var(--border-light)] py-5 px-6 text-center text-xs text-[var(--muted)]">
-      &copy; {new Date().getFullYear()} {config.site.author || config.site.title} · Powered by <a href="https://github.com/kunyan/astro-blog" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors underline">astro-blog</a>
-    </footer>
+    <Footer config={config} />
   </body>
 </html>

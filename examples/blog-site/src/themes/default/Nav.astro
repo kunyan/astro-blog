@@ -1,4 +1,6 @@
 ---
+import { createT } from "./i18n";
+
 interface Props {
   config: any;
   base: string;
@@ -15,11 +17,7 @@ function isLeaf(item: NavItem): item is NavLeaf {
 const { config, base } = Astro.props;
 const items: NavItem[] = config.nav ?? [];
 const social = config.social ?? {};
-const isZh = (config.site.language ?? "").startsWith("zh");
-const labels = {
-  home: isZh ? "首页" : "Home",
-  posts: isZh ? "文章" : "Posts",
-};
+const t = createT(config.site.language);
 ---
 <script is:inline>
   (function() {
@@ -38,7 +36,7 @@ const labels = {
     </a>
 
     <nav class="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2" id="site-nav">
-      <a href={`${base}/`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{labels.home}</a>
+      <a href={`${base}/`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{t("nav.home")}</a>
       {items.map((item) =>
         isLeaf(item) ? (
           <a href={`${base}${item.path}`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{item.name}</a>
@@ -58,40 +56,40 @@ const labels = {
           </div>
         )
       )}
-      <a href={`${base}/posts`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{labels.posts}</a>
+      <a href={`${base}/posts`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">{t("nav.posts")}</a>
       <a href={`${base}/rss.xml`} class="text-sm text-[var(--text)] no-underline px-2.5 py-1.5 rounded hover:bg-[var(--border-light)] transition-colors">RSS</a>
     </nav>
 
     <div class="flex items-center gap-2 shrink-0">
       {social.github && (
-        <a href={social.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors flex">
+        <a href={social.github} target="_blank" rel="noopener noreferrer" aria-label={t("aria.github")} class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors flex">
           <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
         </a>
       )}
       {social.twitter && (
-        <a href={social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors flex">
+        <a href={social.twitter} target="_blank" rel="noopener noreferrer" aria-label={t("aria.twitter")} class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors flex">
           <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
       )}
       {social.email && (
-        <a href={`mailto:${social.email}`} aria-label="Email" class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors flex">
+        <a href={`mailto:${social.email}`} aria-label={t("aria.email")} class="text-[var(--muted)] hover:text-[var(--ink)] transition-colors flex">
           <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         </a>
       )}
 
-      <button id="theme-toggle" aria-label="Toggle dark mode" class="text-[var(--muted)] hover:text-[var(--ink)] cursor-pointer bg-transparent border-none p-1 rounded hover:bg-[var(--border-light)] transition-colors flex">
+      <button id="theme-toggle" aria-label={t("aria.toggleDark")} class="text-[var(--muted)] hover:text-[var(--ink)] cursor-pointer bg-transparent border-none p-1 rounded hover:bg-[var(--border-light)] transition-colors flex">
         <svg id="icon-sun" class="w-[18px] h-[18px] hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         <svg id="icon-moon" class="w-[18px] h-[18px] block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
 
-      <button id="menu-toggle" aria-label="Toggle menu" class="hidden max-md:flex bg-transparent border-none text-[var(--text)] cursor-pointer p-1 rounded hover:bg-[var(--border-light)] transition-colors">
+      <button id="menu-toggle" aria-label={t("aria.toggleMenu")} class="hidden max-md:flex bg-transparent border-none text-[var(--text)] cursor-pointer p-1 rounded hover:bg-[var(--border-light)] transition-colors">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
   </div>
 
   <nav class="hidden flex-col px-4 pb-4 pt-2 border-t border-[var(--border-light)] md:!hidden" id="mobile-nav">
-    <a href={`${base}/`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{labels.home}</a>
+    <a href={`${base}/`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{t("nav.home")}</a>
     {items.map((item) =>
       isLeaf(item) ? (
         <a href={`${base}${item.path}`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{item.name}</a>
@@ -106,7 +104,7 @@ const labels = {
         </div>
       )
     )}
-    <a href={`${base}/posts`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{labels.posts}</a>
+    <a href={`${base}/posts`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">{t("nav.posts")}</a>
     <a href={`${base}/rss.xml`} class="text-sm text-[var(--text)] no-underline px-2.5 py-2 rounded hover:bg-[var(--border-light)] transition-colors">RSS</a>
   </nav>
 </header>
